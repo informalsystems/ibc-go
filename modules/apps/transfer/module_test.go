@@ -32,11 +32,6 @@ func (suite *TransferTestSuite) TestOnChanOpenInit() {
 			}, false,
 		},
 		{
-			"invalid order - ORDERED", func() {
-				channel.Ordering = channeltypes.ORDERED
-			}, false,
-		},
-		{
 			"invalid port ID", func() {
 				path.EndpointA.ChannelConfig.PortID = ibctesting.MockPort
 			}, false,
@@ -124,11 +119,6 @@ func (suite *TransferTestSuite) TestOnChanOpenTry() {
 				err := suite.chainA.GetSimApp().ScopedTransferKeeper.ClaimCapability(suite.chainA.GetContext(), chanCap, host.ChannelCapabilityPath(path.EndpointA.ChannelConfig.PortID, path.EndpointA.ChannelID))
 				suite.Require().NoError(err)
 			}, true,
-		},
-		{
-			"invalid order - ORDERED", func() {
-				channel.Ordering = channeltypes.ORDERED
-			}, false,
 		},
 		{
 			"invalid port ID", func() {
