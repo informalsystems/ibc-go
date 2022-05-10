@@ -101,9 +101,7 @@ func NewTestChainWithValSet(t *testing.T, coord *Coordinator, appIniter AppInite
 		senderPrivKey := secp256k1.GenPrivKey()
 		acc := authtypes.NewBaseAccount(senderPrivKey.PubKey().Address().Bytes(), senderPrivKey.PubKey(), uint64(i), 0)
 
-		// TODO: I took a zero off of this, should it go back?
-		amount, ok := sdk.NewIntFromString("1000000000000000000")
-		require.Equal(t, int64(1000000000000000000), amount.Int64())
+		amount, ok := sdk.NewIntFromString("10000000000000000000")
 		require.True(t, ok)
 
 		balance := banktypes.Balance{
