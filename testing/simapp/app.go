@@ -95,6 +95,7 @@ import (
 	ibc "github.com/cosmos/ibc-go/v3/modules/core"
 	ibcclient "github.com/cosmos/ibc-go/v3/modules/core/02-client"
 	ibcclientclient "github.com/cosmos/ibc-go/v3/modules/core/02-client/client"
+	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
 	ibcclienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
 	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
 	ibchost "github.com/cosmos/ibc-go/v3/modules/core/24-host"
@@ -629,7 +630,7 @@ func (app *SimApp) GetBaseApp() *baseapp.BaseApp {
 }
 
 // GetStakingKeeper implements the TestingApp interface.
-func (app *SimApp) GetStakingKeeper() stakingkeeper.Keeper {
+func (app *SimApp) GetStakingKeeper() clienttypes.StakingKeeper {
 	return app.StakingKeeper
 }
 
