@@ -167,6 +167,16 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 		{"tries to unescrow more tokens than allowed", func() {
 			amount = sdk.NewInt(1000000)
 		}, true, false},
+
+		// - coin being sent to module address on chainA
+		{"failure: receive on module account", func() {
+			receiver = suite.chainA.GetSimApp().AccountKeeper.GetModuleAddress(types.ModuleName).String()
+		}, false, false},
+
+		// - coin being sent back to original chain (chainB) to module address
+		{"failure: receive on module account on source chain", func() {
+			receiver = suite.chainB.GetSimApp().AccountKeeper.GetModuleAddress(types.ModuleName).String()
+		}, true, false},
 	}
 
 	for _, tc := range testCases {
@@ -186,12 +196,12 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 				// send coin from chainB to chainA, receive them, acknowledge them, and send back to chainB
 				coinFromBToA := sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100))
 				transferMsg := types.NewMsgTransfer(path.EndpointB.ChannelConfig.PortID, path.EndpointB.ChannelID, coinFromBToA, suite.chainB.SenderAccount.GetAddress().String(), suite.chainA.SenderAccount.GetAddress().String(), clienttypes.NewHeight(0, 110), 0)
-				_, err := suite.chainB.SendMsgs(transferMsg)
+				res, err := suite.chainB.SendMsgs(transferMsg)
 				suite.Require().NoError(err) // message committed
 
-				// relay send packet
-				fungibleTokenPacket := types.NewFungibleTokenPacketData(coinFromBToA.Denom, coinFromBToA.Amount.String(), suite.chainB.SenderAccount.GetAddress().String(), suite.chainA.SenderAccount.GetAddress().String())
-				packet := channeltypes.NewPacket(fungibleTokenPacket.GetBytes(), 1, path.EndpointB.ChannelConfig.PortID, path.EndpointB.ChannelID, path.EndpointA.ChannelConfig.PortID, path.EndpointA.ChannelID, clienttypes.NewHeight(0, 110), 0)
+				packet, err := ibctesting.ParsePacketFromEvents(res.GetEvents())
+				suite.Require().NoError(err)
+
 				err = path.RelayPacket(packet)
 				suite.Require().NoError(err) // relay committed
 

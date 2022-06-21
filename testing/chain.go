@@ -1,6 +1,7 @@
 package ibctesting
 
 import (
+	"bytes"
 	"fmt"
 	"testing"
 	"time"
@@ -516,6 +517,26 @@ func MakeBlockID(hash []byte, partSetSize uint32, partSetHash []byte) tmtypes.Bl
 			Total: partSetSize,
 			Hash:  partSetHash,
 		},
+	}
+}
+
+// CreateSortedSignerArray takes two PrivValidators, and the corresponding Validator structs
+// (including voting power). It returns a signer array of PrivValidators that matches the
+// sorting of ValidatorSet.
+// The sorting is first by .VotingPower (descending), with secondary index of .Address (ascending).
+func CreateSortedSignerArray(altPrivVal, suitePrivVal tmtypes.PrivValidator,
+	altVal, suiteVal *tmtypes.Validator,
+) []tmtypes.PrivValidator {
+	switch {
+	case altVal.VotingPower > suiteVal.VotingPower:
+		return []tmtypes.PrivValidator{altPrivVal, suitePrivVal}
+	case altVal.VotingPower < suiteVal.VotingPower:
+		return []tmtypes.PrivValidator{suitePrivVal, altPrivVal}
+	default:
+		if bytes.Compare(altVal.Address, suiteVal.Address) == -1 {
+			return []tmtypes.PrivValidator{altPrivVal, suitePrivVal}
+		}
+		return []tmtypes.PrivValidator{suitePrivVal, altPrivVal}
 	}
 }
 
