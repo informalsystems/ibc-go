@@ -275,6 +275,18 @@ func (chain *TestChain) GetSentPacket(sequence uint64) (packet channeltypes.Pack
 	return
 }
 
+// setSentPacketsFromEvents stores the sent packet reconstructed
+// from emitted events of type SendPacketEvent
+func (chain *TestChain) setSentPacketsFromEvents(events []abci.Event) {
+	for _, event := range events {
+		if event.Type == channeltypes.EventTypeSendPacket {
+			packet, err := channelkeeper.ReconstructPacketFromEvent(event)
+			require.NoError(chain.T, err)
+			chain.SentPackets[packet.Sequence] = packet
+		}
+	}
+}
+
 // NextBlock sets the last header to the current header and increments the current header to be
 // at the next block height. It does not update the time as that is handled by the Coordinator.
 // It will call Endblock and Commit and apply the validator set changes to the next validators
@@ -285,13 +297,7 @@ func (chain *TestChain) NextBlock() (abci.ResponseEndBlock, abci.ResponseCommit,
 
 	ebRes := chain.App.EndBlock(abci.RequestEndBlock{Height: chain.CurrentHeader.Height})
 	// store packets sent during EndBlock
-	for _, event := range ebRes.Events {
-		if event.Type == channeltypes.EventTypeSendPacket {
-			packet, err := channelkeeper.ReconstructPacketFromEvent(event)
-			require.NoError(chain.T, err)
-			chain.SentPackets[packet.Sequence] = packet
-		}
-	}
+	chain.setSentPacketsFromEvents(ebRes.Events)
 
 	cRes := chain.App.Commit()
 
@@ -318,13 +324,8 @@ func (chain *TestChain) NextBlock() (abci.ResponseEndBlock, abci.ResponseCommit,
 
 	bbRes := chain.App.BeginBlock(abci.RequestBeginBlock{Header: chain.CurrentHeader})
 	// store packets sent during BeginBlock
-	for _, event := range bbRes.Events {
-		if event.Type == channeltypes.EventTypeSendPacket {
-			packet, err := channelkeeper.ReconstructPacketFromEvent(event)
-			require.NoError(chain.T, err)
-			chain.SentPackets[packet.Sequence] = packet
-		}
-	}
+	chain.setSentPacketsFromEvents(bbRes.Events)
+
 	return ebRes, cRes, bbRes
 }
 
@@ -356,13 +357,7 @@ func (chain *TestChain) SendMsgs(msgs ...sdk.Msg) (*sdk.Result, error) {
 		return nil, err
 	}
 	// store packets sent during the execution of this transaction
-	for _, event := range r.Events {
-		if event.Type == channeltypes.EventTypeSendPacket {
-			packet, err := channelkeeper.ReconstructPacketFromEvent(event)
-			require.NoError(chain.T, err)
-			chain.SentPackets[packet.Sequence] = packet
-		}
-	}
+	chain.setSentPacketsFromEvents(r.Events)
 
 	// NextBlock calls app.Commit()
 	chain.NextBlock()
