@@ -301,14 +301,14 @@ func (chain *TestChain) NextBlock() (abci.ResponseEndBlock, abci.ResponseCommit,
 
 	cRes := chain.App.Commit()
 
-	// set the last header to the current header
-	// use nil trusted fields
-	chain.LastHeader = chain.CurrentTMClientHeader()
-
 	// val set changes returned from previous block get applied to the next validators
 	// of this block. See tendermint spec for details.
 	chain.Vals = chain.NextVals
 	chain.NextVals = ApplyValSetChanges(chain.T, chain.Vals, ebRes.ValidatorUpdates)
+	
+	// set the last header to the current header
+	// use nil trusted fields
+	chain.LastHeader = chain.CurrentTMClientHeader()
 
 	// increment the current header
 	chain.CurrentHeader = tmproto.Header{
