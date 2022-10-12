@@ -9,11 +9,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	coretypes "github.com/cosmos/ibc-go/v3/modules/core/types"
+	"github.com/cosmos/ibc-go/v4/modules/apps/transfer/types"
+	clienttypes "github.com/cosmos/ibc-go/v4/modules/core/02-client/types"
+	channeltypes "github.com/cosmos/ibc-go/v4/modules/core/04-channel/types"
+	host "github.com/cosmos/ibc-go/v4/modules/core/24-host"
+	coretypes "github.com/cosmos/ibc-go/v4/modules/core/types"
 )
 
 // SendTransfer handles transfer sending logic. There are 2 possible cases:
@@ -48,6 +48,8 @@ import (
 // 4. A -> C : sender chain is sink zone. Denom upon receiving: 'C/B/denom'
 // 5. C -> B : sender chain is sink zone. Denom upon receiving: 'B/denom'
 // 6. B -> A : sender chain is sink zone. Denom upon receiving: 'denom'
+//
+// Note: An IBC Transfer must be initiated using a MsgTransfer via the Transfer rpc handler
 func (k Keeper) SendTransfer(
 	ctx sdk.Context,
 	sourcePort,
@@ -58,9 +60,12 @@ func (k Keeper) SendTransfer(
 	timeoutHeight clienttypes.Height,
 	timeoutTimestamp uint64,
 ) error {
-
 	if !k.GetSendEnabled(ctx) {
 		return types.ErrSendDisabled
+	}
+
+	if k.bankKeeper.BlockedAddr(sender) {
+		return sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s is not allowed to send funds", sender)
 	}
 
 	sourceChannelEnd, found := k.channelKeeper.GetChannel(ctx, sourcePort, sourceChannel)

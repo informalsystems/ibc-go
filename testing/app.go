@@ -22,9 +22,9 @@ import (
 	tmtypes "github.com/tendermint/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	"github.com/cosmos/ibc-go/v3/modules/core/keeper"
-	"github.com/cosmos/ibc-go/v3/testing/simapp"
+	"github.com/cosmos/ibc-go/v4/modules/core/02-client/types"
+	"github.com/cosmos/ibc-go/v4/modules/core/keeper"
+	"github.com/cosmos/ibc-go/v4/testing/simapp"
 )
 
 type AppIniter func() (TestingApp, map[string]json.RawMessage)
@@ -60,8 +60,8 @@ func SetupTestingApp() (TestingApp, map[string]json.RawMessage) {
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
 // of one consensus engine unit (10^6) in the default token of the simapp from first genesis
 // account. A Nop logger is set in SimApp.
-func SetupWithGenesisValSet(t *testing.T, appIniter AppIniter, valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, chainID string, powerReduction sdk.Int, balances ...banktypes.Balance) TestingApp {
-	app, genesisState := appIniter()
+func SetupWithGenesisValSet(t *testing.T, valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, chainID string, powerReduction sdk.Int, balances ...banktypes.Balance) TestingApp {
+	app, genesisState := DefaultTestingAppInit()
 
 	// set genesis accounts
 	authGenesis := authtypes.NewGenesisState(authtypes.DefaultParams(), genAccs)

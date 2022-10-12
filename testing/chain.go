@@ -1,10 +1,11 @@
 package ibctesting
 
 import (
-	"bytes"
 	"fmt"
 	"testing"
 	"time"
+
+	channelkeeper "github.com/cosmos/ibc-go/v4/modules/core/04-channel/keeper"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -18,6 +19,7 @@ import (
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 	"github.com/cosmos/cosmos-sdk/x/staking/teststaking"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	channeltypes "github.com/cosmos/ibc-go/v4/modules/core/04-channel/types"
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/crypto/tmhash"
@@ -26,16 +28,14 @@ import (
 	tmtypes "github.com/tendermint/tendermint/types"
 	tmversion "github.com/tendermint/tendermint/version"
 
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	channelkeeper "github.com/cosmos/ibc-go/v3/modules/core/04-channel/keeper"
-	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
-	commitmenttypes "github.com/cosmos/ibc-go/v3/modules/core/23-commitment/types"
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	"github.com/cosmos/ibc-go/v3/modules/core/exported"
-	"github.com/cosmos/ibc-go/v3/modules/core/types"
-	ibctmtypes "github.com/cosmos/ibc-go/v3/modules/light-clients/07-tendermint/types"
-	"github.com/cosmos/ibc-go/v3/testing/mock"
-	"github.com/cosmos/ibc-go/v3/testing/simapp"
+	clienttypes "github.com/cosmos/ibc-go/v4/modules/core/02-client/types"
+	commitmenttypes "github.com/cosmos/ibc-go/v4/modules/core/23-commitment/types"
+	host "github.com/cosmos/ibc-go/v4/modules/core/24-host"
+	"github.com/cosmos/ibc-go/v4/modules/core/exported"
+	"github.com/cosmos/ibc-go/v4/modules/core/types"
+	ibctmtypes "github.com/cosmos/ibc-go/v4/modules/light-clients/07-tendermint/types"
+	"github.com/cosmos/ibc-go/v4/testing/mock"
+	"github.com/cosmos/ibc-go/v4/testing/simapp"
 )
 
 var MaxAccounts = 10
@@ -98,7 +98,7 @@ type TestChain struct {
 //
 // CONTRACT: Validator array must be provided in the order expected by Tendermint.
 // i.e. sorted first by power and then lexicographically by address.
-func NewTestChainWithValSet(t *testing.T, coord *Coordinator, appIniter AppIniter, chainID string, valSet *tmtypes.ValidatorSet, signers map[string]tmtypes.PrivValidator) *TestChain {
+func NewTestChainWithValSet(t *testing.T, coord *Coordinator, chainID string, valSet *tmtypes.ValidatorSet, signers map[string]tmtypes.PrivValidator) *TestChain {
 	genAccs := []authtypes.GenesisAccount{}
 	genBals := []banktypes.Balance{}
 	senderAccs := []SenderAccount{}
@@ -110,6 +110,7 @@ func NewTestChainWithValSet(t *testing.T, coord *Coordinator, appIniter AppInite
 		amount, ok := sdk.NewIntFromString("10000000000000000000")
 		require.True(t, ok)
 
+		// add sender account
 		balance := banktypes.Balance{
 			Address: acc.GetAddress().String(),
 			Coins:   sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, amount)),
@@ -126,7 +127,13 @@ func NewTestChainWithValSet(t *testing.T, coord *Coordinator, appIniter AppInite
 		senderAccs = append(senderAccs, senderAcc)
 	}
 
-	app := SetupWithGenesisValSet(t, appIniter, valSet, genAccs, chainID, sdk.DefaultPowerReduction, genBals...)
+	// add mock module account balance
+	genBals = append(genBals, banktypes.Balance{
+		Address: authtypes.NewModuleAddress(mock.ModuleName).String(),
+		Coins:   sdk.Coins{sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(1000000000))},
+	})
+
+	app := SetupWithGenesisValSet(t, valSet, genAccs, chainID, sdk.DefaultPowerReduction, genBals...)
 
 	// create current header and call begin block
 	header := tmproto.Header{
@@ -156,6 +163,10 @@ func NewTestChainWithValSet(t *testing.T, coord *Coordinator, appIniter AppInite
 		SenderAccounts: senderAccs,
 	}
 
+	// creates mock module account
+	mockModuleAcc := chain.GetSimApp().AccountKeeper.GetModuleAccount(chain.GetContext(), mock.ModuleName)
+	require.NotNil(t, mockModuleAcc)
+
 	coord.CommitBlock(chain)
 
 	return chain
@@ -163,7 +174,7 @@ func NewTestChainWithValSet(t *testing.T, coord *Coordinator, appIniter AppInite
 
 // NewTestChain initializes a new test chain with a default of 4 validators
 // Use this function if the tests do not need custom control over the validator set
-func NewTestChain(t *testing.T, coord *Coordinator, appIniter AppIniter, chainID string) *TestChain {
+func NewTestChain(t *testing.T, coord *Coordinator, chainID string) *TestChain {
 	// generate validators private/public key
 	var (
 		validatorsPerChain = 4
@@ -184,7 +195,7 @@ func NewTestChain(t *testing.T, coord *Coordinator, appIniter AppIniter, chainID
 	// or, if equal, by address lexical order
 	valSet := tmtypes.NewValidatorSet(validators)
 
-	return NewTestChainWithValSet(t, coord, appIniter, chainID, valSet, signersByAddress)
+	return NewTestChainWithValSet(t, coord, chainID, valSet, signersByAddress)
 }
 
 // GetContext returns the current context for the application.
@@ -296,19 +307,20 @@ func (chain *TestChain) setSentPacketsFromEvents(events []abci.Event) {
 func (chain *TestChain) NextBlock() (abci.ResponseEndBlock, abci.ResponseCommit, abci.ResponseBeginBlock) {
 
 	ebRes := chain.App.EndBlock(abci.RequestEndBlock{Height: chain.CurrentHeader.Height})
+
 	// store packets sent during EndBlock
 	chain.setSentPacketsFromEvents(ebRes.Events)
 
 	cRes := chain.App.Commit()
 
+	// set the last header to the current header
+	// use nil trusted fields
+	chain.LastHeader = chain.CurrentTMClientHeader()
+
 	// val set changes returned from previous block get applied to the next validators
 	// of this block. See tendermint spec for details.
 	chain.Vals = chain.NextVals
 	chain.NextVals = ApplyValSetChanges(chain.T, chain.Vals, ebRes.ValidatorUpdates)
-	
-	// set the last header to the current header
-	// use nil trusted fields
-	chain.LastHeader = chain.CurrentTMClientHeader()
 
 	// increment the current header
 	chain.CurrentHeader = tmproto.Header{
@@ -554,26 +566,6 @@ func MakeBlockID(hash []byte, partSetSize uint32, partSetHash []byte) tmtypes.Bl
 	}
 }
 
-// CreateSortedSignerArray takes two PrivValidators, and the corresponding Validator structs
-// (including voting power). It returns a signer array of PrivValidators that matches the
-// sorting of ValidatorSet.
-// The sorting is first by .VotingPower (descending), with secondary index of .Address (ascending).
-func CreateSortedSignerArray(altPrivVal, suitePrivVal tmtypes.PrivValidator,
-	altVal, suiteVal *tmtypes.Validator,
-) []tmtypes.PrivValidator {
-	switch {
-	case altVal.VotingPower > suiteVal.VotingPower:
-		return []tmtypes.PrivValidator{altPrivVal, suitePrivVal}
-	case altVal.VotingPower < suiteVal.VotingPower:
-		return []tmtypes.PrivValidator{suitePrivVal, altPrivVal}
-	default:
-		if bytes.Compare(altVal.Address, suiteVal.Address) == -1 {
-			return []tmtypes.PrivValidator{altPrivVal, suitePrivVal}
-		}
-		return []tmtypes.PrivValidator{suitePrivVal, altPrivVal}
-	}
-}
-
 // CreatePortCapability binds and claims a capability for the given portID if it does not
 // already exist. This function will fail testing on any resulting error.
 // NOTE: only creation of a capability for a transfer or mock port is supported
@@ -627,4 +619,10 @@ func (chain *TestChain) GetChannelCapability(portID, channelID string) *capabili
 	require.True(chain.T, ok)
 
 	return cap
+}
+
+// GetTimeoutHeight is a convenience function which returns a IBC packet timeout height
+// to be used for testing. It returns the current IBC height + 100 blocks
+func (chain *TestChain) GetTimeoutHeight() clienttypes.Height {
+	return clienttypes.NewHeight(clienttypes.ParseChainID(chain.ChainID), uint64(chain.GetContext().BlockHeight())+100)
 }

@@ -35,7 +35,7 @@ func NewCoordinator(t *testing.T, n int) *Coordinator {
 
 	for i := 1; i <= n; i++ {
 		chainID := GetChainID(i)
-		chains[chainID] = NewTestChain(t, coord, DefaultTestingAppInit, chainID)
+		chains[chainID] = NewTestChain(t, coord, chainID)
 	}
 	coord.Chains = chains
 
@@ -190,55 +190,8 @@ func (coord *Coordinator) CommitBlock(chains ...*TestChain) {
 // CommitNBlocks commits n blocks to state and updates the block height by 1 for each commit.
 func (coord *Coordinator) CommitNBlocks(chain *TestChain, n uint64) {
 	for i := uint64(0); i < n; i++ {
+		chain.App.BeginBlock(abci.RequestBeginBlock{Header: chain.CurrentHeader})
 		chain.NextBlock()
 		coord.IncrementTime()
 	}
-}
-
-// CommitBlockGetResponses commits a block and provides abci responses
-func (coord *Coordinator) CommitBlockGetResponses(chain *TestChain) (
-	abci.ResponseEndBlock, abci.ResponseCommit, abci.ResponseBeginBlock) {
-
-	ebRes, cRes, bbResp := chain.NextBlock()
-	coord.IncrementTime()
-	return ebRes, cRes, bbResp
-}
-
-// ConnOpenInitOnBothChains initializes a connection on both endpoints with the state INIT
-// using the OpenInit handshake call.
-func (coord *Coordinator) ConnOpenInitOnBothChains(path *Path) error {
-	if err := path.EndpointA.ConnOpenInit(); err != nil {
-		return err
-	}
-
-	if err := path.EndpointB.ConnOpenInit(); err != nil {
-		return err
-	}
-
-	if err := path.EndpointA.UpdateClient(); err != nil {
-		return err
-	}
-
-	return path.EndpointB.UpdateClient()
-}
-
-// ChanOpenInitOnBothChains initializes a channel on the source chain and counterparty chain
-// with the state INIT using the OpenInit handshake call.
-func (coord *Coordinator) ChanOpenInitOnBothChains(path *Path) error {
-	// NOTE: only creation of a capability for a transfer or mock port is supported
-	// Other applications must bind to the port in InitGenesis or modify this code.
-
-	if err := path.EndpointA.ChanOpenInit(); err != nil {
-		return err
-	}
-
-	if err := path.EndpointB.ChanOpenInit(); err != nil {
-		return err
-	}
-
-	if err := path.EndpointA.UpdateClient(); err != nil {
-		return err
-	}
-
-	return path.EndpointB.UpdateClient()
 }
