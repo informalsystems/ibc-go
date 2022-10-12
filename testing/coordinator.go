@@ -12,7 +12,7 @@ import (
 
 var (
 	ChainIDPrefix   = "testchain"
-	GlobalStartTime = time.Date(2020, 1, 2, 0, 0, 0, 0, time.UTC)
+	globalStartTime = time.Date(2020, 1, 2, 0, 0, 0, 0, time.UTC)
 	TimeIncrement   = time.Second * 5
 )
 
@@ -30,7 +30,7 @@ func NewCoordinator(t *testing.T, n int) *Coordinator {
 	chains := make(map[string]*TestChain)
 	coord := &Coordinator{
 		T:           t,
-		CurrentTime: GlobalStartTime,
+		CurrentTime: globalStartTime,
 	}
 
 	for i := 1; i <= n; i++ {
@@ -181,7 +181,6 @@ func GetChainID(index int) string {
 // CONTRACT: the passed in list of indexes must not contain duplicates
 func (coord *Coordinator) CommitBlock(chains ...*TestChain) {
 	for _, chain := range chains {
-		// NextBlock calls app.Commit()
 		chain.NextBlock()
 	}
 	coord.IncrementTime()
