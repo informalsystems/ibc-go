@@ -159,7 +159,7 @@ func EmitSendPacketEvent(ctx sdk.Context, packet exported.PacketI, channel types
 func ReconstructPacketFromEvent(event abci.Event) (packet types.Packet, err error) {
 	attrMap := make(map[string][]byte)
 	for _, attr := range event.Attributes {
-		attrMap[string(attr.Key)] = attr.Value
+		attrMap[string(attr.Key)] = []byte(attr.Value)
 	}
 
 	sequence, err := strconv.Atoi(string(attrMap[string(types.AttributeKeySequence)]))

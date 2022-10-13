@@ -8,9 +8,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
-	"github.com/gogo/protobuf/proto"
-	"github.com/stretchr/testify/suite"
-
 	"github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/types"
 	icatypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/types"
 	feetypes "github.com/cosmos/ibc-go/v5/modules/apps/29-fee/types"
@@ -19,6 +16,8 @@ import (
 	host "github.com/cosmos/ibc-go/v5/modules/core/24-host"
 	"github.com/cosmos/ibc-go/v5/modules/core/exported"
 	ibctesting "github.com/cosmos/ibc-go/v5/testing"
+	proto "github.com/gogo/protobuf/proto"
+	"github.com/stretchr/testify/suite"
 )
 
 var (

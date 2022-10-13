@@ -127,23 +127,8 @@ func (am AppModule) InitModule(ctx sdk.Context, controllerParams controllertypes
 func (AppModule) RegisterInvariants(ir sdk.InvariantRegistry) {
 }
 
-// Route implements the AppModule interface
-func (AppModule) Route() sdk.Route {
-	return sdk.NewRoute(types.RouterKey, nil)
-}
-
 // NewHandler implements the AppModule interface
 func (AppModule) NewHandler() sdk.Handler {
-	return nil
-}
-
-// QuerierRoute implements the AppModule interface
-func (AppModule) QuerierRoute() string {
-	return types.QuerierRoute
-}
-
-// LegacyQuerierHandler implements the AppModule interface
-func (am AppModule) LegacyQuerierHandler(legacyQuerierCdc *codec.LegacyAmino) sdk.Querier {
 	return nil
 }
 
