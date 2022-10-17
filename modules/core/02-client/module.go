@@ -1,8 +1,8 @@
 package client
 
 import (
+	"github.com/cosmos/gogoproto/grpc"
 	"github.com/spf13/cobra"
-	"google.golang.org/grpc"
 
 	"github.com/cosmos/ibc-go/v5/modules/core/02-client/client/cli"
 	"github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
