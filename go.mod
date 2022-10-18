@@ -2,13 +2,11 @@ go 1.18
 
 module github.com/cosmos/ibc-go/v5
 
-replace github.com/cosmos/cosmos-sdk => /Users/simon/Dev/go-workspace/src/github.com/sainoe/cosmos-sdk
-
 require (
 	cosmossdk.io/math v1.0.0-beta.3
 	github.com/armon/go-metrics v0.4.1
 	github.com/confio/ics23/go v0.7.0
-	github.com/cosmos/cosmos-sdk v0.46.1
+	github.com/cosmos/cosmos-sdk v0.46.0-beta2.0.20221009102120-84675a6bf171
 	github.com/cosmos/gogoproto v1.4.2
 	github.com/golang/protobuf v1.5.2
 	github.com/gorilla/mux v1.8.0
