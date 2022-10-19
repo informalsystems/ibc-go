@@ -13,6 +13,8 @@ set -eo pipefail
 
 # protoc_gen_gocosmos
 
+GO111MODULE=on go get -x github.com/cosmos/cosmos-sdk@84675a6bf171
+
 
 proto_dirs=$(find ./proto -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
 for dir in $proto_dirs; do
@@ -28,13 +30,20 @@ Mgoogle/protobuf/any.proto=github.com/cosmos/cosmos-sdk/codec/types:. \
 
 done
 
+echo "protoc 2"
+
 # command to generate docs using protoc-gen-doc
 buf protoc \
+    -v \
     -I "proto" \
     -I "third_party/proto" \
     --doc_out=./docs/ibc \
     --doc_opt=./docs/protodoc-markdown.tmpl,proto-docs.md \
     $(find "$(pwd)/proto" -maxdepth 7 -name '*.proto')
+
+echo "protoc 3"
+
+
 go mod tidy
 
 # move proto files to the right places

@@ -378,8 +378,8 @@ devdoc-update:
 ###                                Protobuf                                 ###
 ###############################################################################
 
-containerProtoVer=v0.2
-containerProtoImage=tendermintdev/sdk-proto-gen:$(containerProtoVer)
+containerProtoVer=0.11.0
+containerProtoImage=ghcr.io/cosmos/proto-builder:$(containerProtoVer)
 containerProtoGen=cosmos-sdk-proto-gen-$(containerProtoVer)
 containerProtoGenSwagger=cosmos-sdk-proto-gen-swagger-$(containerProtoVer)
 containerProtoFmt=cosmos-sdk-proto-fmt-$(containerProtoVer)
@@ -389,7 +389,7 @@ proto-all: proto-format proto-lint proto-gen
 proto-gen:
 	@echo "Generating Protobuf files"
 	@if docker ps -a --format '{{.Names}}' | grep -Eq "^${containerProtoGen}$$"; then docker start -a $(containerProtoGen); else docker run --name $(containerProtoGen) -v $(CURDIR):/workspace --workdir /workspace $(containerProtoImage) \
-		sh ./scripts/protocgen.sh; fi
+		sh ./proto/scripts/protocgen.sh; fi
 
 proto-format:
 	@echo "Formatting Protobuf files"
@@ -407,37 +407,25 @@ proto-lint:
 proto-check-breaking:
 	@$(DOCKER_BUF) breaking --against $(HTTPS_GIT)#branch=main
 
-TM_URL              = https://raw.githubusercontent.com/tendermint/tendermint/v0.34.20/proto/tendermint
-GOGO_PROTO_URL      = https://raw.githubusercontent.com/regen-network/protobuf/cosmos
+TM_URL              = https://raw.githubusercontent.com/tendermint/tendermint/v0.37.0-alpha.2/proto/tendermint
 CONFIO_URL          = https://raw.githubusercontent.com/confio/ics23/v0.7.1
-SDK_PROTO_URL 		= https://raw.githubusercontent.com/cosmos/cosmos-sdk/v0.46.0/proto/cosmos
+SDK_PROTO_URL 		= https://raw.githubusercontent.com/cosmos/cosmos-sdk/v0.46.0-beta2.0.20221009102120-84675a6bf171/proto/cosmos
 
-TM_CRYPTO_TYPES     = third_party/proto/tendermint/crypto
-TM_ABCI_TYPES       = third_party/proto/tendermint/abci
-TM_TYPES            = third_party/proto/tendermint/types
-TM_VERSION          = third_party/proto/tendermint/version
-TM_LIBS             = third_party/proto/tendermint/libs/bits
-TM_P2P              = third_party/proto/tendermint/p2p
+TM_CRYPTO_TYPES     = proto/tendermint/crypto
+TM_ABCI_TYPES       = proto/tendermint/abci
+TM_TYPES            = proto/tendermint/types
+TM_VERSION          = proto/tendermint/version
+TM_LIBS             = proto/tendermint/libs/bits
+TM_P2P              = proto/tendermint/p2p
 
-SDK_QUERY 			= third_party/proto/cosmos/base/query/v1beta1
-SDK_BASE 			= third_party/proto/cosmos/base/v1beta1
-SDK_UPGRADE			= third_party/proto/cosmos/upgrade
+SDK_QUERY 			= proto/cosmos/base/query/v1beta1
+SDK_BASE 			= proto/cosmos/base/v1beta1
+SDK_UPGRADE			= proto/cosmos/upgrade
 
-GOGO_PROTO_TYPES    = third_party/proto/gogoproto
-CONFIO_TYPES        = third_party/proto
+GOGO_PROTO_TYPES    = proto/gogoproto
+CONFIO_TYPES        = proto
 
 proto-update-deps:
-	@mkdir -p $(GOGO_PROTO_TYPES)
-	@curl -sSL $(GOGO_PROTO_URL)/gogoproto/gogo.proto > $(GOGO_PROTO_TYPES)/gogo.proto
-
-	@mkdir -p $(SDK_QUERY)
-	@curl -sSL $(SDK_PROTO_URL)/base/query/v1beta1/pagination.proto > $(SDK_QUERY)/pagination.proto
-
-	@mkdir -p $(SDK_BASE)
-	@curl -sSL $(SDK_PROTO_URL)/base/v1beta1/coin.proto > $(SDK_BASE)/coin.proto
-
-	@mkdir -p $(SDK_UPGRADE)
-	@curl -sSL $(SDK_PROTO_URL)/upgrade/v1beta1/upgrade.proto > $(SDK_UPGRADE)/v1beta1/upgrade.proto
 
 ## Importing of tendermint protobuf definitions currently requires the
 ## use of `sed` in order to build properly with cosmos-sdk's proto file layout
