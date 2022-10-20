@@ -4,15 +4,20 @@
 # This module represents the "proto" root found in
 # the previous configuration.
 version: v1
-name: buf.build/cosmos/cosmoshub
+name: buf.build/cosmos/ibc-go
 deps:
   - buf.build/cosmos/cosmos-sdk:84675a6bf1713e8458240bdcb6ae8e6503ac3711
   - buf.build/cosmos/cosmos-proto:1935555c206d4afb9e94615dfd0fad31
-  - buf.build/cosmos/gogo-proto:bee5511075b7499da6178d9e4aaa628b
+  - buf.build/cosmos/gogo-proto:6652e3443c3b4504bb3bf82e73a7e409
   - buf.build/googleapis/googleapis:8d7204855ec14631a499bd7393ce1970
 breaking:
   use:
     - FILE
+  ignore:
+    - proofs.proto # confio/ics23
+    - gogoproto
+    - google
+    - tendermint
 lint:
   use:
     - DEFAULT
@@ -24,3 +29,8 @@ lint:
     - SERVICE_SUFFIX
     - PACKAGE_VERSION_SUFFIX
     - RPC_REQUEST_STANDARD_NAME
+  ignore:
+    - proofs.proto # confio/ics23
+    - gogoproto
+    - google
+    - tendermint
