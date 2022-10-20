@@ -6,10 +6,10 @@ package types
 import (
 	fmt "fmt"
 	types "github.com/cosmos/cosmos-sdk/codec/types"
-	types1 "github.com/cosmos/ibc-go/v5/modules/core/03-connection/types"
-	types2 "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	proto "github.com/cosmos/gogoproto/proto"
+	types1 "github.com/cosmos/ibc-go/v5/modules/core/03-connection/types"
+	types2 "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
 	io "io"
 	math "math"
 	math_bits "math/bits"

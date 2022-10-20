@@ -5,9 +5,9 @@ package types
 
 import (
 	fmt "fmt"
-	types "github.com/cosmos/ibc-go/v5/modules/core/23-commitment/types"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	proto "github.com/cosmos/gogoproto/proto"
+	types "github.com/cosmos/ibc-go/v5/modules/core/23-commitment/types"
 	io "io"
 	math "math"
 	math_bits "math/bits"
