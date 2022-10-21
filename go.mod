@@ -2,14 +2,14 @@ go 1.18
 
 module github.com/cosmos/ibc-go/v5
 
-// replace github.com/cosmos/cosmos-sdk => github.com/cosmos/cosmos-sdk v0.46.3
+replace github.com/gogo/gateway => github.com/notional-labs/gateway v1.1.1-0.20220417180718-8e60e17a098d
 
 require (
 	cosmossdk.io/math v1.0.0-beta.3
 	github.com/armon/go-metrics v0.4.1
 	github.com/confio/ics23/go v0.7.0
 	github.com/cosmos/cosmos-proto v1.0.0-alpha8
-	github.com/cosmos/cosmos-sdk v0.46.0-beta2.0.20221009102120-84675a6bf171
+	github.com/cosmos/cosmos-sdk v0.46.0-beta2.0.20221010023852-74efb1350a18
 	github.com/golang/protobuf v1.5.2
 	github.com/gorilla/mux v1.8.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
@@ -74,6 +74,7 @@ require (
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
 	github.com/godbus/dbus v0.0.0-20190726142602-4481cbc300e2 // indirect
 	github.com/gogo/gateway v1.1.0 // indirect
+	github.com/gogo/googleapis v1.4.1-0.20201022092350-68b0159b7869 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/glog v1.0.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
