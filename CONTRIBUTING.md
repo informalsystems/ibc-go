@@ -148,8 +148,7 @@ For example, in vscode your `.vscode/settings.json` should look like:
 {
     "protoc": {
         "options": [
-        "--proto_path=${workspaceRoot}/proto",
-        "--proto_path=${workspaceRoot}/third_party/proto"
+        "--proto_path=${workspaceRoot}/proto"
         ]
     }
 }

@@ -2,50 +2,20 @@
 
 set -eo pipefail
 
-# protoc_gen_gocosmos() {
-#   if ! grep "github.com/gogo/protobuf => github.com/regen-network/protobuf" go.mod &>/dev/null ; then
-#     echo -e "\tPlease run this command from somewhere inside the ibc-go folder."
-#     return 1
-#   fi
-
-#   go get github.com/regen-network/cosmos-proto/protoc-gen-gocosmos@latest 2>/dev/null
-# }
-
-# protoc_gen_gocosmos
-
-GO111MODULE=on go get -x github.com/cosmos/cosmos-sdk@84675a6bf171
-
-
-proto_dirs=$(find ./proto -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
+echo "Generating gogo proto code"
+cd proto
+proto_dirs=$(find ./ibc -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
 for dir in $proto_dirs; do
-  echo "building ${dir}"
-  buf protoc \
-  -v \
-  -I "proto" \
-  -I "third_party/proto" \
-  --gocosmos_out=plugins=interfacetype+grpc,\
-Mgoogle/protobuf/any.proto=github.com/cosmos/cosmos-sdk/codec/types:. \
-  --grpc-gateway_out=logtostderr=true:. \
-  $(find "${dir}" -maxdepth 1 -name '*.proto') \
-
+  for file in $(find "${dir}" -maxdepth 2 -name '*.proto'); do
+      buf generate --template buf.gen.gogo.yaml $file
+  done
 done
 
-echo "protoc 2"
 
-# command to generate docs using protoc-gen-doc
-buf protoc \
-    -v \
-    -I "proto" \
-    -I "third_party/proto" \
-    --doc_out=./docs/ibc \
-    --doc_opt=./docs/protodoc-markdown.tmpl,proto-docs.md \
-    $(find "$(pwd)/proto" -maxdepth 7 -name '*.proto')
-
-echo "protoc 3"
-
-
-go mod tidy
+cd ..
 
 # move proto files to the right places
-cp -r github.com/cosmos/ibc-go/v*/modules/* modules/
+cp -r github.com/cosmos/ibc-go/v5/* ./
 rm -rf github.com
+
+go mod tidy

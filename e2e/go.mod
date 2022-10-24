@@ -2,12 +2,8 @@ module github.com/cosmos/ibc-go/e2e
 
 go 1.18
 
-// replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
-// replace github.com/cosmos/cosmos-sdk => /Users/simon/Dev/go-workspace/src/github.com/sainoe/cosmos-sdk
-replace github.com/cosmos/ibc-go/v5 => /Users/simon/Dev/go-workspace/src/github.com/sainoe/ibc-go
-
 require (
-	github.com/cosmos/cosmos-sdk v0.46.0-beta2.0.20221009102120-84675a6bf171
+	github.com/cosmos/cosmos-sdk v0.46.0-beta2.0.20221010023852-74efb1350a18
 	github.com/cosmos/gogoproto v1.4.2
 	github.com/cosmos/ibc-go/v5 v5.0.0
 	github.com/docker/docker v20.10.17+incompatible
