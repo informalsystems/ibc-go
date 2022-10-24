@@ -2,6 +2,10 @@ module github.com/cosmos/ibc-go/e2e
 
 go 1.18
 
+// seems like we need this until ibctest is migrated as well
+// replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
+replace github.com/cosmos/ibc-go/v5 => /Users/simon/Dev/go-workspace/src/github.com/sainoe/ibc-go
+
 require (
 	github.com/cosmos/cosmos-sdk v0.46.0-beta2.0.20221010023852-74efb1350a18
 	github.com/cosmos/gogoproto v1.4.2
