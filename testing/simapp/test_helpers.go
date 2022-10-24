@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"cosmossdk.io/depinject"
 	"cosmossdk.io/math"
 	abci "github.com/tendermint/tendermint/abci/types"
 
@@ -24,6 +25,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/errors"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
@@ -442,4 +444,16 @@ func FundAccount(app *SimApp, ctx sdk.Context, addr sdk.AccAddress, amounts sdk.
 		return err
 	}
 	return app.BankKeeper.SendCoinsFromModuleToAccount(ctx, minttypes.ModuleName, addr, amounts)
+}
+
+// ModuleAccountAddrs provides a list of blocked module accounts from configuration in app.yaml
+//
+// Ported from SimApp
+func ModuleAccountAddrs() map[string]bool {
+	var bk bankkeeper.Keeper
+	err := depinject.Inject(AppConfig, &bk)
+	if err != nil {
+		panic("unable to load DI container")
+	}
+	return bk.GetBlockedAddresses()
 }

@@ -70,7 +70,7 @@ func TestFullAppSimulation(t *testing.T) {
 		require.NoError(t, os.RemoveAll(dir))
 	}()
 
-	app := NewSimApp(logger, db, nil, true, map[int64]bool{}, DefaultNodeHome, FlagPeriodValue, MakeTestEncodingConfig(), EmptyAppOptions{}, fauxMerkleModeOpt)
+	app := NewSimApp(logger, db, nil, true, EmptyAppOptions{}, fauxMerkleModeOpt)
 	require.Equal(t, "SimApp", app.Name())
 
 	// run randomized simulation
@@ -81,7 +81,7 @@ func TestFullAppSimulation(t *testing.T) {
 		AppStateFn(app.AppCodec(), app.SimulationManager()),
 		simtypes.RandomAccounts, // Replace with own random account function if using keys other than secp256k1
 		SimulationOperations(app, app.AppCodec(), config),
-		app.ModuleAccountAddrs(),
+		ModuleAccountAddrs(),
 		config,
 		app.AppCodec(),
 	)
@@ -108,7 +108,7 @@ func TestAppImportExport(t *testing.T) {
 		require.NoError(t, os.RemoveAll(dir))
 	}()
 
-	app := NewSimApp(logger, db, nil, true, map[int64]bool{}, DefaultNodeHome, FlagPeriodValue, MakeTestEncodingConfig(), EmptyAppOptions{}, fauxMerkleModeOpt)
+	app := NewSimApp(logger, db, nil, true, EmptyAppOptions{}, fauxMerkleModeOpt)
 	require.Equal(t, "SimApp", app.Name())
 
 	// Run randomized simulation
@@ -119,7 +119,7 @@ func TestAppImportExport(t *testing.T) {
 		AppStateFn(app.AppCodec(), app.SimulationManager()),
 		simtypes.RandomAccounts, // Replace with own random account function if using keys other than secp256k1
 		SimulationOperations(app, app.AppCodec(), config),
-		app.ModuleAccountAddrs(),
+		ModuleAccountAddrs(),
 		config,
 		app.AppCodec(),
 	)
@@ -135,7 +135,7 @@ func TestAppImportExport(t *testing.T) {
 
 	fmt.Printf("exporting genesis...\n")
 
-	exported, err := app.ExportAppStateAndValidators(false, []string{})
+	exported, err := app.ExportAppStateAndValidators(false, []string{}, []string{})
 	require.NoError(t, err)
 
 	fmt.Printf("importing genesis...\n")
@@ -148,7 +148,7 @@ func TestAppImportExport(t *testing.T) {
 		require.NoError(t, os.RemoveAll(newDir))
 	}()
 
-	newApp := NewSimApp(log.NewNopLogger(), newDB, nil, true, map[int64]bool{}, DefaultNodeHome, FlagPeriodValue, MakeTestEncodingConfig(), EmptyAppOptions{}, fauxMerkleModeOpt)
+	newApp := NewSimApp(log.NewNopLogger(), newDB, nil, true, EmptyAppOptions{}, fauxMerkleModeOpt)
 	require.Equal(t, "SimApp", newApp.Name())
 
 	var genesisState GenesisState
@@ -157,7 +157,7 @@ func TestAppImportExport(t *testing.T) {
 
 	ctxA := app.NewContext(true, tmproto.Header{Height: app.LastBlockHeight()})
 	ctxB := newApp.NewContext(true, tmproto.Header{Height: app.LastBlockHeight()})
-	newApp.mm.InitGenesis(ctxB, app.AppCodec(), genesisState)
+	newApp.ModuleManager.InitGenesis(ctxB, app.AppCodec(), genesisState)
 	newApp.StoreConsensusParams(ctxB, exported.ConsensusParams)
 
 	fmt.Printf("comparing stores...\n")
@@ -208,7 +208,7 @@ func TestAppSimulationAfterImport(t *testing.T) {
 		require.NoError(t, os.RemoveAll(dir))
 	}()
 
-	app := NewSimApp(logger, db, nil, true, map[int64]bool{}, DefaultNodeHome, FlagPeriodValue, MakeTestEncodingConfig(), EmptyAppOptions{}, fauxMerkleModeOpt)
+	app := NewSimApp(logger, db, nil, true, EmptyAppOptions{}, fauxMerkleModeOpt)
 	require.Equal(t, "SimApp", app.Name())
 
 	// Run randomized simulation
@@ -219,7 +219,7 @@ func TestAppSimulationAfterImport(t *testing.T) {
 		AppStateFn(app.AppCodec(), app.SimulationManager()),
 		simtypes.RandomAccounts, // Replace with own random account function if using keys other than secp256k1
 		SimulationOperations(app, app.AppCodec(), config),
-		app.ModuleAccountAddrs(),
+		ModuleAccountAddrs(),
 		config,
 		app.AppCodec(),
 	)
@@ -240,7 +240,7 @@ func TestAppSimulationAfterImport(t *testing.T) {
 
 	fmt.Printf("exporting genesis...\n")
 
-	exported, err := app.ExportAppStateAndValidators(true, []string{})
+	exported, err := app.ExportAppStateAndValidators(true, []string{}, []string{})
 	require.NoError(t, err)
 
 	fmt.Printf("importing genesis...\n")
@@ -253,7 +253,7 @@ func TestAppSimulationAfterImport(t *testing.T) {
 		require.NoError(t, os.RemoveAll(newDir))
 	}()
 
-	newApp := NewSimApp(log.NewNopLogger(), newDB, nil, true, map[int64]bool{}, DefaultNodeHome, FlagPeriodValue, MakeTestEncodingConfig(), EmptyAppOptions{}, fauxMerkleModeOpt)
+	newApp := NewSimApp(log.NewNopLogger(), newDB, nil, true, EmptyAppOptions{}, fauxMerkleModeOpt)
 	require.Equal(t, "SimApp", newApp.Name())
 
 	newApp.InitChain(abci.RequestInitChain{
@@ -267,7 +267,7 @@ func TestAppSimulationAfterImport(t *testing.T) {
 		AppStateFn(app.AppCodec(), app.SimulationManager()),
 		simtypes.RandomAccounts, // Replace with own random account function if using keys other than secp256k1
 		SimulationOperations(newApp, newApp.AppCodec(), config),
-		app.ModuleAccountAddrs(),
+		ModuleAccountAddrs(),
 		config,
 		app.AppCodec(),
 	)
@@ -304,7 +304,7 @@ func TestAppStateDeterminism(t *testing.T) {
 			}
 
 			db := dbm.NewMemDB()
-			app := NewSimApp(logger, db, nil, true, map[int64]bool{}, DefaultNodeHome, FlagPeriodValue, MakeTestEncodingConfig(), EmptyAppOptions{}, interBlockCacheOpt())
+			app := NewSimApp(logger, db, nil, true, EmptyAppOptions{}, interBlockCacheOpt())
 
 			fmt.Printf(
 				"running non-determinism simulation; seed %d: %d/%d, attempt: %d/%d\n",
@@ -318,7 +318,7 @@ func TestAppStateDeterminism(t *testing.T) {
 				AppStateFn(app.AppCodec(), app.SimulationManager()),
 				simtypes.RandomAccounts, // Replace with own random account function if using keys other than secp256k1
 				SimulationOperations(app, app.AppCodec(), config),
-				app.ModuleAccountAddrs(),
+				ModuleAccountAddrs(),
 				config,
 				app.AppCodec(),
 			)

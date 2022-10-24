@@ -27,7 +27,7 @@ func BenchmarkFullAppSimulation(b *testing.B) {
 		}
 	}()
 
-	app := NewSimApp(logger, db, nil, true, map[int64]bool{}, DefaultNodeHome, FlagPeriodValue, MakeTestEncodingConfig(), EmptyAppOptions{}, interBlockCacheOpt())
+	app := NewSimApp(logger, db, nil, true, EmptyAppOptions{}, interBlockCacheOpt())
 
 	// run randomized simulation
 	_, simParams, simErr := simulation.SimulateFromSeed(
@@ -37,7 +37,7 @@ func BenchmarkFullAppSimulation(b *testing.B) {
 		AppStateFn(app.AppCodec(), app.SimulationManager()),
 		simtypes.RandomAccounts, // Replace with own random account function if using keys other than secp256k1
 		SimulationOperations(app, app.AppCodec(), config),
-		app.ModuleAccountAddrs(),
+		ModuleAccountAddrs(),
 		config,
 		app.AppCodec(),
 	)
@@ -73,7 +73,7 @@ func BenchmarkInvariants(b *testing.B) {
 		}
 	}()
 
-	app := NewSimApp(logger, db, nil, true, map[int64]bool{}, DefaultNodeHome, FlagPeriodValue, MakeTestEncodingConfig(), EmptyAppOptions{}, interBlockCacheOpt())
+	app := NewSimApp(logger, db, nil, true, EmptyAppOptions{}, interBlockCacheOpt())
 
 	// run randomized simulation
 	_, simParams, simErr := simulation.SimulateFromSeed(
@@ -83,7 +83,7 @@ func BenchmarkInvariants(b *testing.B) {
 		AppStateFn(app.AppCodec(), app.SimulationManager()),
 		simtypes.RandomAccounts, // Replace with own random account function if using keys other than secp256k1
 		SimulationOperations(app, app.AppCodec(), config),
-		app.ModuleAccountAddrs(),
+		ModuleAccountAddrs(),
 		config,
 		app.AppCodec(),
 	)
