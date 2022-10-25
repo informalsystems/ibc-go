@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand"
 
+	"cosmossdk.io/core/appmodule"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
@@ -218,3 +219,62 @@ func (am AppModule) RandomizedParams(r *rand.Rand) []simtypes.ParamChange {
 func (am AppModule) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
 	sdr[types.StoreKey] = simulation.NewDecodeStore()
 }
+
+// ============================================================================
+// New App Wiring Setup
+// ============================================================================
+
+func init() {
+	appmodule.Register(
+		&modulev1.Module{},
+		appmodule.Provide(
+			provideModuleBasic,
+			provideModule,
+		),
+	)
+}
+
+func provideModuleBasic() runtime.AppModuleBasicWrapper {
+	return runtime.WrapAppModuleBasic(AppModuleBasic{})
+}
+
+// type icaInputs struct {
+// 	depinject.In
+
+// 	ModuleKey   depinject.OwnModuleKey
+// 	Key         *store.KVStoreKey
+// 	Cdc         codec.Codec
+// 	LegacyAmino *codec.LegacyAmino
+// 	Authority   map[string]sdk.AccAddress `optional:"true"`
+
+// 	AccountKeeper types.AccountKeeper
+// 	BankKeeper    types.BankKeeper
+// 	StakingKeeper types.StakingKeeper
+
+// 	// LegacySubspace is used solely for migration of x/params managed parameters
+// 	LegacySubspace exported.Subspace
+// }
+
+// type icaOutputs struct {
+// 	depinject.Out
+
+// 	Keeper keeper.Keeper
+// 	Module runtime.AppModuleWrapper
+// 	Hooks  staking.StakingHooksWrapper
+// }
+
+// func provideModule(in icaInputs) icaOutputs {
+// 	authority, ok := in.Authority[depinject.ModuleKey(in.ModuleKey).Name()]
+// 	if !ok {
+// 		// default to governance authority if not provided
+// 		authority = authtypes.NewModuleAddress(govtypes.ModuleName)
+// 	}
+
+// 	k := keeper.NewKeeper(in.Cdc, in.LegacyAmino, in.Key, in.StakingKeeper, authority.String())
+// 	m := NewAppModule(in.Cdc, k, in.AccountKeeper, in.BankKeeper, in.StakingKeeper, in.LegacySubspace)
+// 	return icaOutputs{
+// 		Keeper: k,
+// 		Module: runtime.WrapAppModule(m),
+// 		Hooks:  staking.StakingHooksWrapper{StakingHooks: k.Hooks()},
+// 	}
+// }

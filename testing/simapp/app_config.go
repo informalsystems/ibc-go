@@ -26,6 +26,8 @@ import (
 	upgrademodulev1 "cosmossdk.io/api/cosmos/upgrade/module/v1"
 	vestingmodulev1 "cosmossdk.io/api/cosmos/vesting/module/v1"
 	"cosmossdk.io/core/appconfig"
+	icatypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/types"
+	ibchost "github.com/cosmos/ibc-go/v5/modules/core/24-host"
 	"google.golang.org/protobuf/types/known/durationpb"
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -47,6 +49,9 @@ import (
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+	ibcfeetypes "github.com/cosmos/ibc-go/v5/modules/apps/29-fee/types"
+	ibctransfertypes "github.com/cosmos/ibc-go/v5/modules/apps/transfer/types"
+	ibcmock "github.com/cosmos/ibc-go/v5/testing/mock"
 )
 
 var (
@@ -59,6 +64,10 @@ var (
 		{Account: stakingtypes.NotBondedPoolName, Permissions: []string{authtypes.Burner, stakingtypes.ModuleName}},
 		{Account: govtypes.ModuleName, Permissions: []string{authtypes.Burner}},
 		{Account: nft.ModuleName},
+		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
+		{Account: ibcfeetypes.ModuleName, Permissions: nil},
+		{Account: icatypes.ModuleName, Permissions: nil},
+		{Account: ibcmock.ModuleName, Permissions: nil},
 	}
 
 	// blocked account addresses
@@ -93,6 +102,8 @@ var (
 						slashingtypes.ModuleName,
 						evidencetypes.ModuleName,
 						stakingtypes.ModuleName,
+						ibchost.ModuleName,
+						ibctransfertypes.ModuleName,
 						authtypes.ModuleName,
 						banktypes.ModuleName,
 						govtypes.ModuleName,
@@ -101,15 +112,20 @@ var (
 						authz.ModuleName,
 						feegrant.ModuleName,
 						nft.ModuleName,
-						group.ModuleName,
 						paramstypes.ModuleName,
 						vestingtypes.ModuleName,
 						consensustypes.ModuleName,
+						icatypes.ModuleName,
+						ibcfeetypes.ModuleName,
+						ibcmock.ModuleName,
+						group.ModuleName,
 					},
 					EndBlockers: []string{
 						crisistypes.ModuleName,
 						govtypes.ModuleName,
 						stakingtypes.ModuleName,
+						ibchost.ModuleName,
+						ibctransfertypes.ModuleName,
 						capabilitytypes.ModuleName,
 						authtypes.ModuleName,
 						banktypes.ModuleName,
@@ -121,11 +137,14 @@ var (
 						authz.ModuleName,
 						feegrant.ModuleName,
 						nft.ModuleName,
-						group.ModuleName,
 						paramstypes.ModuleName,
 						consensustypes.ModuleName,
 						upgradetypes.ModuleName,
 						vestingtypes.ModuleName,
+						icatypes.ModuleName,
+						ibcfeetypes.ModuleName,
+						ibcmock.ModuleName,
+						group.ModuleName,
 					},
 					OverrideStoreKeys: []*runtimev1alpha1.StoreKeyConfig{
 						{

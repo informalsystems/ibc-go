@@ -39,6 +39,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/capability"
 	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
+	"github.com/cosmos/cosmos-sdk/x/consensus"
 	consensusparamkeeper "github.com/cosmos/cosmos-sdk/x/consensus/keeper"
 	consensustypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
@@ -107,8 +108,6 @@ import (
 	ibctestingtypes "github.com/cosmos/ibc-go/v5/testing/types"
 )
 
-const appName = "SimApp"
-
 // IBC application testing ports
 const (
 	MockFeePort string = ibcmock.ModuleName + ibcfeetypes.ModuleName
@@ -151,6 +150,7 @@ var (
 		authzmodule.AppModuleBasic{},
 		vesting.AppModuleBasic{},
 		ibcfee.AppModuleBasic{},
+		consensus.AppModuleBasic{},
 	)
 )
 
@@ -278,6 +278,9 @@ func NewSimApp(
 		&app.CrisisKeeper,
 		&app.UpgradeKeeper,
 		&app.ParamsKeeper,
+		&app.ICAControllerKeeper,
+		&app.ICAHostKeeper,
+		&app.TransferKeeper,
 		&app.AuthzKeeper,
 		&app.EvidenceKeeper,
 		&app.FeeGrantKeeper,
@@ -520,4 +523,27 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(icahosttypes.SubModuleName)
 
 	return paramsKeeper
+}
+
+func (app SimApp) RegisterUpgradeHandlers() {
+	// app.UpgradeKeeper.SetUpgradeHandler(
+	// 	simappupgrades.DefaultUpgradeName,
+	// 	simappupgrades.CreateDefaultUpgradeHandler(app.ModuleManager, app.Configurator()),
+	// )
+
+	// NOTE: The moduleName arg of v6.CreateUpgradeHandler refers to the auth module ScopedKeeper name to which the channel capability should be migrated from.
+	// This should be the same string value provided upon instantiation of the ScopedKeeper with app.CapabilityKeeper.ScopeToModule()
+	// TODO: update git tag in link below
+	// See: https://github.com/cosmos/ibc-go/blob/v5.0.0-rc2/testing/simapp/app.go#L304
+	// app.UpgradeKeeper.SetUpgradeHandler(
+	// 	v6.UpgradeName,
+	// 	v6.CreateUpgradeHandler(
+	// 		app.ModuleManager,
+	// 		app.Configurator(),
+	// 		app.appCodec,
+	// 		app.keys[capabilitytypes.ModuleName],
+	// 		app.CapabilityKeeper,
+	// 		ibcmock.ModuleName+icacontrollertypes.SubModuleName,
+	// 	),
+	// )
 }

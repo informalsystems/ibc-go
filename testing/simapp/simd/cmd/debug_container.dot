@@ -1,3 +1,504 @@
 digraph "" {
+    subgraph "cluster_auth" {
+      graph [fontsize="12.0", label="Module: auth", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/auth.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/auth.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_authz" {
+      graph [fontsize="12.0", label="Module: authz", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/authz/module.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/authz/module.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_bank" {
+      graph [fontsize="12.0", label="Module: bank", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/bank.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/bank.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_capability" {
+      graph [fontsize="12.0", label="Module: capability", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/capability.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/capability.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_consensus" {
+      graph [fontsize="12.0", label="Module: consensus", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/consensus.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/consensus.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_crisis" {
+      graph [fontsize="12.0", label="Module: crisis", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/crisis.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/crisis.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_distribution" {
+      graph [fontsize="12.0", label="Module: distribution", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/distribution.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/distribution.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_evidence" {
+      graph [fontsize="12.0", label="Module: evidence", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/evidence.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/evidence.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_feegrant" {
+      graph [fontsize="12.0", label="Module: feegrant", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/feegrant/module.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/feegrant/module.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_genutil" {
+      graph [fontsize="12.0", label="Module: genutil", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/genutil.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/genutil.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_gov" {
+      graph [fontsize="12.0", label="Module: gov", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/gov.provideKeyTable"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/gov.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/gov.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_group" {
+      graph [fontsize="12.0", label="Module: group", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/group/module.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/group/module.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_mint" {
+      graph [fontsize="12.0", label="Module: mint", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/mint.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/mint.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_nft" {
+      graph [fontsize="12.0", label="Module: nft", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/nft/module.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/nft/module.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_params" {
+      graph [fontsize="12.0", label="Module: params", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/params.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/params.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/params.provideSubspace"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_runtime" {
+      graph [fontsize="12.0", label="Module: runtime", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/runtime.provideAppBuilder"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/runtime.provideCodecs"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/runtime.provideDeliverTx"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/runtime.provideKVStoreKey"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/runtime.provideMemoryStoreKey"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/runtime.provideTransientStoreKey"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_slashing" {
+      graph [fontsize="12.0", label="Module: slashing", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/slashing.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/slashing.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_staking" {
+      graph [fontsize="12.0", label="Module: staking", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/staking.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/staking.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_tx" {
+      graph [fontsize="12.0", label="Module: tx", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/auth/tx/module.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_upgrade" {
+      graph [fontsize="12.0", label="Module: upgrade", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/upgrade.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/upgrade.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+    subgraph "cluster_vesting" {
+      graph [fontsize="12.0", label="Module: vesting", penwidth="0.5", style="rounded"];
+      "github.com/cosmos/cosmos-sdk/x/auth/vesting.provideModule"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+      "github.com/cosmos/cosmos-sdk/x/auth/vesting.provideModuleBasic"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+    }
+
+  "*cosmossdk.io/api/cosmos/app/runtime/v1alpha1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/app/v1alpha1.Config"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "*cosmossdk.io/api/cosmos/auth/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/authz/module/v1.Module"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "*cosmossdk.io/api/cosmos/bank/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/capability/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/consensus/module/v1.Module"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "*cosmossdk.io/api/cosmos/crisis/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/distribution/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/evidence/module/v1.Module"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "*cosmossdk.io/api/cosmos/feegrant/module/v1.Module"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "*cosmossdk.io/api/cosmos/genutil/module/v1.Module"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "*cosmossdk.io/api/cosmos/gov/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/group/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/mint/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/nft/module/v1.Module"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "*cosmossdk.io/api/cosmos/params/module/v1.Module"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "*cosmossdk.io/api/cosmos/slashing/module/v1.Module"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "*cosmossdk.io/api/cosmos/staking/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/tx/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/upgrade/module/v1.Module"[color="black", fontcolor="black", penwidth="1.5"];
+  "*cosmossdk.io/api/cosmos/vesting/module/v1.Module"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "*github.com/cosmos/cosmos-sdk/baseapp.MsgServiceRouter"[color="black", fontcolor="black", penwidth="1.5"];
+  "*github.com/cosmos/cosmos-sdk/codec.LegacyAmino"[color="black", fontcolor="black", penwidth="1.5"];
+  "*github.com/cosmos/cosmos-sdk/runtime.App"[color="black", fontcolor="black", penwidth="1.5"];
+  "*github.com/cosmos/cosmos-sdk/runtime.AppBuilder"[color="black", fontcolor="black", penwidth="1.5"];
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey"[color="black", fontcolor="black", penwidth="1.5"];
+  "*github.com/cosmos/cosmos-sdk/store/types.MemoryStoreKey"[color="black", fontcolor="black", penwidth="1.5"];
+  "*github.com/cosmos/cosmos-sdk/store/types.TransientStoreKey"[color="black", fontcolor="black", penwidth="1.5"];
+  "*github.com/cosmos/cosmos-sdk/x/capability/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "*github.com/cosmos/cosmos-sdk/x/crisis/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "*github.com/cosmos/cosmos-sdk/x/gov/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "*github.com/cosmos/cosmos-sdk/x/staking/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "[]github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1.HandlerRoute"[color="lightgrey", comment="many-per-container", fontcolor="dimgrey", penwidth="0.5"];
+  "[]runtime.BaseAppOption"[color="black", comment="many-per-container", fontcolor="black", penwidth="1.5"];
+  "cosmossdk.io/core/appconfig.Compose"[color="black", fontcolor="black", penwidth="1.5", shape="box"];
+  "cosmossdk.io/depinject.ModuleKey"[color="black", fontcolor="black", penwidth="1.5"];
+  "cosmossdk.io/depinject.OwnModuleKey"[color="black", fontcolor="black", penwidth="1.5"];
+  "func(types.RequestDeliverTx) types.ResponseDeliverTx"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/client.TxConfig"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/codec.Codec"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/codec.ProtoCodecMarshaler"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/codec/types.InterfaceRegistry"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/server/types.AppOptions"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/testutil/sims.EmptyAppOptions"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "github.com/cosmos/cosmos-sdk/x/auth/ante.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/auth/exported.Subspace"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/auth/types.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/auth/vesting/types.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/authz.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/authz.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/authz/keeper.Keeper"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "github.com/cosmos/cosmos-sdk/x/bank/exported.Subspace"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/bank/types.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/consensus/keeper.Keeper"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "github.com/cosmos/cosmos-sdk/x/crisis/exported.Subspace"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/crisis/types.SupplyKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/distribution/exported.Subspace"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/distribution/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/distribution/types.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/distribution/types.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/distribution/types.StakingKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/evidence/keeper.Keeper"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "github.com/cosmos/cosmos-sdk/x/evidence/types.SlashingKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/evidence/types.StakingKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/feegrant.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/feegrant.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/feegrant/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/genutil/types.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/genutil/types.StakingKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/gov/types.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/gov/types.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/gov/types.ParamSubspace"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/gov/types.StakingKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/group.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/group.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/group/keeper.Keeper"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "github.com/cosmos/cosmos-sdk/x/mint/exported.Subspace"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/mint/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/mint/types.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/mint/types.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/mint/types.StakingKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/nft.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/nft.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/nft/keeper.Keeper"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "github.com/cosmos/cosmos-sdk/x/params/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/params/types.Subspace"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "github.com/cosmos/cosmos-sdk/x/slashing/exported.Subspace"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/slashing/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/slashing/types.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/slashing/types.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/slashing/types.StakingKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/staking/exported.Subspace"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/staking/types.AccountKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/staking/types.BankKeeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/cosmos-sdk/x/upgrade/keeper.Keeper"[color="black", fontcolor="black", penwidth="1.5"];
+  "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/controller/keeper.Keeper"[color="red", fontcolor="red", penwidth="0.5"];
+  "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/keeper.Keeper"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "github.com/cosmos/ibc-go/v5/modules/apps/transfer/keeper.Keeper"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp"[color="red", fontcolor="red", penwidth="1.5", shape="hexagon"];
+  "map[string][]uint8"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper"[color="black", comment="one-per-module", fontcolor="black", penwidth="1.5"];
+  "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper"[color="black", comment="one-per-module", fontcolor="black", penwidth="1.5"];
+  "map[string]github.com/cosmos/cosmos-sdk/x/params/types.KeyTable"[color="black", comment="one-per-module", fontcolor="black", penwidth="1.5"];
+  "map[string]github.com/cosmos/cosmos-sdk/x/staking/types.StakingHooksWrapper"[color="lightgrey", comment="one-per-module", fontcolor="dimgrey", penwidth="0.5"];
+  "types.InflationCalculationFn"[color="lightgrey", fontcolor="dimgrey", penwidth="0.5"];
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/app/v1alpha1.Config";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/app/runtime/v1alpha1.Module";
+  "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper" -> "github.com/cosmos/cosmos-sdk/runtime.provideCodecs";
+  "github.com/cosmos/cosmos-sdk/runtime.provideCodecs" -> "github.com/cosmos/cosmos-sdk/codec/types.InterfaceRegistry";
+  "github.com/cosmos/cosmos-sdk/runtime.provideCodecs" -> "github.com/cosmos/cosmos-sdk/codec.Codec";
+  "github.com/cosmos/cosmos-sdk/runtime.provideCodecs" -> "*github.com/cosmos/cosmos-sdk/codec.LegacyAmino";
+  "github.com/cosmos/cosmos-sdk/runtime.provideCodecs" -> "*github.com/cosmos/cosmos-sdk/runtime.App";
+  "github.com/cosmos/cosmos-sdk/runtime.provideCodecs" -> "github.com/cosmos/cosmos-sdk/codec.ProtoCodecMarshaler";
+  "github.com/cosmos/cosmos-sdk/runtime.provideCodecs" -> "*github.com/cosmos/cosmos-sdk/baseapp.MsgServiceRouter";
+  "*cosmossdk.io/api/cosmos/app/runtime/v1alpha1.Module" -> "github.com/cosmos/cosmos-sdk/runtime.provideAppBuilder";
+  "*github.com/cosmos/cosmos-sdk/runtime.App" -> "github.com/cosmos/cosmos-sdk/runtime.provideAppBuilder";
+  "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper" -> "github.com/cosmos/cosmos-sdk/runtime.provideAppBuilder";
+  "[]runtime.BaseAppOption" -> "github.com/cosmos/cosmos-sdk/runtime.provideAppBuilder";
+  "github.com/cosmos/cosmos-sdk/runtime.provideAppBuilder" -> "*github.com/cosmos/cosmos-sdk/runtime.AppBuilder";
+  "*cosmossdk.io/api/cosmos/app/runtime/v1alpha1.Module" -> "github.com/cosmos/cosmos-sdk/runtime.provideKVStoreKey";
+  "cosmossdk.io/depinject.ModuleKey" -> "github.com/cosmos/cosmos-sdk/runtime.provideKVStoreKey";
+  "*github.com/cosmos/cosmos-sdk/runtime.App" -> "github.com/cosmos/cosmos-sdk/runtime.provideKVStoreKey";
+  "github.com/cosmos/cosmos-sdk/runtime.provideKVStoreKey" -> "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey";
+  "cosmossdk.io/depinject.ModuleKey" -> "github.com/cosmos/cosmos-sdk/runtime.provideTransientStoreKey";
+  "*github.com/cosmos/cosmos-sdk/runtime.App" -> "github.com/cosmos/cosmos-sdk/runtime.provideTransientStoreKey";
+  "github.com/cosmos/cosmos-sdk/runtime.provideTransientStoreKey" -> "*github.com/cosmos/cosmos-sdk/store/types.TransientStoreKey";
+  "cosmossdk.io/depinject.ModuleKey" -> "github.com/cosmos/cosmos-sdk/runtime.provideMemoryStoreKey";
+  "*github.com/cosmos/cosmos-sdk/runtime.App" -> "github.com/cosmos/cosmos-sdk/runtime.provideMemoryStoreKey";
+  "github.com/cosmos/cosmos-sdk/runtime.provideMemoryStoreKey" -> "*github.com/cosmos/cosmos-sdk/store/types.MemoryStoreKey";
+  "*github.com/cosmos/cosmos-sdk/runtime.App" -> "github.com/cosmos/cosmos-sdk/runtime.provideDeliverTx";
+  "github.com/cosmos/cosmos-sdk/runtime.provideDeliverTx" -> "func(types.RequestDeliverTx) types.ResponseDeliverTx";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/auth/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/auth.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "*cosmossdk.io/api/cosmos/auth/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/auth.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/auth.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/auth.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/exported.Subspace" -> "github.com/cosmos/cosmos-sdk/x/auth.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth.provideModule" -> "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper";
+  "github.com/cosmos/cosmos-sdk/x/auth.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/vesting/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/auth/vesting.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/auth/vesting.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/vesting/types.BankKeeper" -> "github.com/cosmos/cosmos-sdk/x/auth/vesting.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/vesting.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/bank/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/bank.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "cosmossdk.io/depinject.OwnModuleKey" -> "github.com/cosmos/cosmos-sdk/x/bank.provideModule";
+  "*cosmossdk.io/api/cosmos/bank/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/bank.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/bank.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/bank.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/bank.provideModule";
+  "map[string][]uint8" -> "github.com/cosmos/cosmos-sdk/x/bank.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/exported.Subspace" -> "github.com/cosmos/cosmos-sdk/x/bank.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank.provideModule" -> "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper";
+  "github.com/cosmos/cosmos-sdk/x/bank.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/staking/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/staking.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "*cosmossdk.io/api/cosmos/staking/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/staking.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/staking.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/staking.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/staking.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/staking.provideModule";
+  "cosmossdk.io/depinject.OwnModuleKey" -> "github.com/cosmos/cosmos-sdk/x/staking.provideModule";
+  "map[string][]uint8" -> "github.com/cosmos/cosmos-sdk/x/staking.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/staking/exported.Subspace" -> "github.com/cosmos/cosmos-sdk/x/staking.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/staking.provideModule" -> "*github.com/cosmos/cosmos-sdk/x/staking/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/staking.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/slashing/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/slashing.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "cosmossdk.io/depinject.OwnModuleKey" -> "github.com/cosmos/cosmos-sdk/x/slashing.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/slashing.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/slashing.provideModule";
+  "*github.com/cosmos/cosmos-sdk/codec.LegacyAmino" -> "github.com/cosmos/cosmos-sdk/x/slashing.provideModule";
+  "map[string][]uint8" -> "github.com/cosmos/cosmos-sdk/x/slashing.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/slashing.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/slashing.provideModule";
+  "*github.com/cosmos/cosmos-sdk/x/staking/keeper.Keeper" -> "github.com/cosmos/cosmos-sdk/x/slashing.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/slashing/exported.Subspace" -> "github.com/cosmos/cosmos-sdk/x/slashing.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/slashing.provideModule" -> "github.com/cosmos/cosmos-sdk/x/slashing/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/slashing.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "github.com/cosmos/cosmos-sdk/x/slashing.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/x/staking/types.StakingHooksWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/params/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/params.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/params.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.TransientStoreKey" -> "github.com/cosmos/cosmos-sdk/x/params.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/params.provideModule";
+  "*github.com/cosmos/cosmos-sdk/codec.LegacyAmino" -> "github.com/cosmos/cosmos-sdk/x/params.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/params.provideModule" -> "github.com/cosmos/cosmos-sdk/x/params/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/params.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "github.com/cosmos/cosmos-sdk/x/params.provideModule" -> "[]github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1.HandlerRoute";
+  "cosmossdk.io/depinject.ModuleKey" -> "github.com/cosmos/cosmos-sdk/x/params.provideSubspace";
+  "github.com/cosmos/cosmos-sdk/x/params/keeper.Keeper" -> "github.com/cosmos/cosmos-sdk/x/params.provideSubspace";
+  "map[string]github.com/cosmos/cosmos-sdk/x/params/types.KeyTable" -> "github.com/cosmos/cosmos-sdk/x/params.provideSubspace";
+  "github.com/cosmos/cosmos-sdk/x/params.provideSubspace" -> "github.com/cosmos/cosmos-sdk/x/params/types.Subspace";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/tx/module/v1.Module";
+  "*cosmossdk.io/api/cosmos/tx/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/auth/tx/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.ProtoCodecMarshaler" -> "github.com/cosmos/cosmos-sdk/x/auth/tx/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/auth/tx/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/auth/tx/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/feegrant/keeper.Keeper" -> "github.com/cosmos/cosmos-sdk/x/auth/tx/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/tx/module.provideModule" -> "github.com/cosmos/cosmos-sdk/client.TxConfig";
+  "github.com/cosmos/cosmos-sdk/x/auth/tx/module.provideModule" -> "[]runtime.BaseAppOption";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/genutil/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/genutil.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/genutil.provideModule";
+  "*github.com/cosmos/cosmos-sdk/x/staking/keeper.Keeper" -> "github.com/cosmos/cosmos-sdk/x/genutil.provideModule";
+  "func(types.RequestDeliverTx) types.ResponseDeliverTx" -> "github.com/cosmos/cosmos-sdk/x/genutil.provideModule";
+  "github.com/cosmos/cosmos-sdk/client.TxConfig" -> "github.com/cosmos/cosmos-sdk/x/genutil.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/genutil.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/authz/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/authz/module.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/authz/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/authz/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/authz/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/authz/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec/types.InterfaceRegistry" -> "github.com/cosmos/cosmos-sdk/x/authz/module.provideModule";
+  "*github.com/cosmos/cosmos-sdk/baseapp.MsgServiceRouter" -> "github.com/cosmos/cosmos-sdk/x/authz/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/authz/module.provideModule" -> "github.com/cosmos/cosmos-sdk/x/authz/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/authz/module.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/upgrade/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/upgrade.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "cosmossdk.io/depinject.OwnModuleKey" -> "github.com/cosmos/cosmos-sdk/x/upgrade.provideModule";
+  "*cosmossdk.io/api/cosmos/upgrade/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/upgrade.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/upgrade.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/upgrade.provideModule";
+  "github.com/cosmos/cosmos-sdk/server/types.AppOptions" -> "github.com/cosmos/cosmos-sdk/x/upgrade.provideModule";
+  "map[string][]uint8" -> "github.com/cosmos/cosmos-sdk/x/upgrade.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/upgrade.provideModule" -> "github.com/cosmos/cosmos-sdk/x/upgrade/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/upgrade.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "github.com/cosmos/cosmos-sdk/x/upgrade.provideModule" -> "[]github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1.HandlerRoute";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/distribution/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/distribution.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "cosmossdk.io/depinject.OwnModuleKey" -> "github.com/cosmos/cosmos-sdk/x/distribution.provideModule";
+  "*cosmossdk.io/api/cosmos/distribution/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/distribution.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/distribution.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/distribution.provideModule";
+  "map[string][]uint8" -> "github.com/cosmos/cosmos-sdk/x/distribution.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/distribution.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/distribution.provideModule";
+  "*github.com/cosmos/cosmos-sdk/x/staking/keeper.Keeper" -> "github.com/cosmos/cosmos-sdk/x/distribution.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/params/types.Subspace" -> "github.com/cosmos/cosmos-sdk/x/distribution.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/distribution.provideModule" -> "github.com/cosmos/cosmos-sdk/x/distribution/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/distribution.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "github.com/cosmos/cosmos-sdk/x/distribution.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/x/staking/types.StakingHooksWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/capability/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/capability.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "*cosmossdk.io/api/cosmos/capability/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/capability.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/capability.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.MemoryStoreKey" -> "github.com/cosmos/cosmos-sdk/x/capability.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/capability.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/capability.provideModule" -> "*github.com/cosmos/cosmos-sdk/x/capability/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/capability.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/evidence/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/evidence.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/evidence.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/evidence.provideModule";
+  "*github.com/cosmos/cosmos-sdk/x/staking/keeper.Keeper" -> "github.com/cosmos/cosmos-sdk/x/evidence.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/slashing/keeper.Keeper" -> "github.com/cosmos/cosmos-sdk/x/evidence.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/evidence.provideModule" -> "github.com/cosmos/cosmos-sdk/x/evidence/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/evidence.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/mint/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/mint.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "cosmossdk.io/depinject.OwnModuleKey" -> "github.com/cosmos/cosmos-sdk/x/mint.provideModule";
+  "*cosmossdk.io/api/cosmos/mint/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/mint.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/mint.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/mint.provideModule";
+  "map[string][]uint8" -> "github.com/cosmos/cosmos-sdk/x/mint.provideModule";
+  "types.InflationCalculationFn" -> "github.com/cosmos/cosmos-sdk/x/mint.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/params/types.Subspace" -> "github.com/cosmos/cosmos-sdk/x/mint.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/mint.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/mint.provideModule";
+  "*github.com/cosmos/cosmos-sdk/x/staking/keeper.Keeper" -> "github.com/cosmos/cosmos-sdk/x/mint.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/mint.provideModule" -> "github.com/cosmos/cosmos-sdk/x/mint/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/mint.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/group/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/group/module.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "*cosmossdk.io/api/cosmos/group/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/group/module.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/group/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/group/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/group/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/group/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec/types.InterfaceRegistry" -> "github.com/cosmos/cosmos-sdk/x/group/module.provideModule";
+  "*github.com/cosmos/cosmos-sdk/baseapp.MsgServiceRouter" -> "github.com/cosmos/cosmos-sdk/x/group/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/group/module.provideModule" -> "github.com/cosmos/cosmos-sdk/x/group/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/group/module.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/nft/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/nft/module.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/nft/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/nft/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec/types.InterfaceRegistry" -> "github.com/cosmos/cosmos-sdk/x/nft/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/nft/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/nft/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/nft/module.provideModule" -> "github.com/cosmos/cosmos-sdk/x/nft/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/nft/module.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/feegrant/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/feegrant/module.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/feegrant/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/feegrant/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/feegrant/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/feegrant/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec/types.InterfaceRegistry" -> "github.com/cosmos/cosmos-sdk/x/feegrant/module.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/feegrant/module.provideModule" -> "github.com/cosmos/cosmos-sdk/x/feegrant/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/feegrant/module.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/gov/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/gov.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "*cosmossdk.io/api/cosmos/gov/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/gov.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/gov.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/gov.provideModule";
+  "cosmossdk.io/depinject.OwnModuleKey" -> "github.com/cosmos/cosmos-sdk/x/gov.provideModule";
+  "*github.com/cosmos/cosmos-sdk/baseapp.MsgServiceRouter" -> "github.com/cosmos/cosmos-sdk/x/gov.provideModule";
+  "map[string][]uint8" -> "github.com/cosmos/cosmos-sdk/x/gov.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/cosmos-sdk/x/gov.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/gov.provideModule";
+  "*github.com/cosmos/cosmos-sdk/x/staking/keeper.Keeper" -> "github.com/cosmos/cosmos-sdk/x/gov.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/params/types.Subspace" -> "github.com/cosmos/cosmos-sdk/x/gov.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/gov.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "github.com/cosmos/cosmos-sdk/x/gov.provideModule" -> "*github.com/cosmos/cosmos-sdk/x/gov/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/gov.provideModule" -> "[]github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1.HandlerRoute";
+  "github.com/cosmos/cosmos-sdk/x/gov.provideKeyTable" -> "map[string]github.com/cosmos/cosmos-sdk/x/params/types.KeyTable";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/crisis/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/crisis.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "cosmossdk.io/depinject.OwnModuleKey" -> "github.com/cosmos/cosmos-sdk/x/crisis.provideModule";
+  "*cosmossdk.io/api/cosmos/crisis/module/v1.Module" -> "github.com/cosmos/cosmos-sdk/x/crisis.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/crisis.provideModule";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/crisis.provideModule";
+  "github.com/cosmos/cosmos-sdk/server/types.AppOptions" -> "github.com/cosmos/cosmos-sdk/x/crisis.provideModule";
+  "map[string][]uint8" -> "github.com/cosmos/cosmos-sdk/x/crisis.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/cosmos-sdk/x/crisis.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/params/types.Subspace" -> "github.com/cosmos/cosmos-sdk/x/crisis.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/crisis.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "github.com/cosmos/cosmos-sdk/x/crisis.provideModule" -> "*github.com/cosmos/cosmos-sdk/x/crisis/keeper.Keeper";
+  "cosmossdk.io/core/appconfig.Compose" -> "*cosmossdk.io/api/cosmos/consensus/module/v1.Module";
+  "github.com/cosmos/cosmos-sdk/x/consensus.provideModuleBasic" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleBasicWrapper";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/cosmos-sdk/x/consensus.provideModule";
+  "*github.com/cosmos/cosmos-sdk/store/types.KVStoreKey" -> "github.com/cosmos/cosmos-sdk/x/consensus.provideModule";
+  "cosmossdk.io/depinject.OwnModuleKey" -> "github.com/cosmos/cosmos-sdk/x/consensus.provideModule";
+  "map[string][]uint8" -> "github.com/cosmos/cosmos-sdk/x/consensus.provideModule";
+  "github.com/cosmos/cosmos-sdk/x/consensus.provideModule" -> "github.com/cosmos/cosmos-sdk/x/consensus/keeper.Keeper";
+  "github.com/cosmos/cosmos-sdk/x/consensus.provideModule" -> "map[string]github.com/cosmos/cosmos-sdk/runtime.AppModuleWrapper";
+  "github.com/cosmos/cosmos-sdk/x/consensus.provideModule" -> "[]runtime.BaseAppOption";
+  "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp" -> "github.com/cosmos/cosmos-sdk/testutil/sims.EmptyAppOptions";
+  "*github.com/cosmos/cosmos-sdk/runtime.AppBuilder" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/codec.Codec" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "*github.com/cosmos/cosmos-sdk/codec.LegacyAmino" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/client.TxConfig" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/codec/types.InterfaceRegistry" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/auth/keeper.AccountKeeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/bank/keeper.BaseKeeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "*github.com/cosmos/cosmos-sdk/x/capability/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "*github.com/cosmos/cosmos-sdk/x/staking/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/slashing/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/mint/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/distribution/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "*github.com/cosmos/cosmos-sdk/x/gov/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "*github.com/cosmos/cosmos-sdk/x/crisis/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/upgrade/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/params/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/controller/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/ibc-go/v5/modules/apps/transfer/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/authz/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/evidence/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/feegrant/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/group/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/nft/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
+  "github.com/cosmos/cosmos-sdk/x/consensus/keeper.Keeper" -> "github.com/cosmos/ibc-go/v5/testing/simapp.NewSimApp";
 }
 

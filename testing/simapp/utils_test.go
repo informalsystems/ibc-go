@@ -2,6 +2,7 @@ package simapp
 
 import (
 	"fmt"
+	_ "github.com/cosmos/cosmos-sdk/x/consensus"
 	"testing"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -9,7 +10,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/kv"
 	"github.com/cosmos/cosmos-sdk/types/module"
+	_ "github.com/cosmos/cosmos-sdk/x/auth/tx/module"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	_ "github.com/cosmos/cosmos-sdk/x/group/module"
+	_ "github.com/cosmos/cosmos-sdk/x/nft/module"
 	"github.com/stretchr/testify/require"
 )
 
