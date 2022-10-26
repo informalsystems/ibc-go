@@ -9,8 +9,10 @@ buf generate --template buf.gen.gogo.yaml $file
 
 cd ..
 
-go mod tidy
-
 # move proto files to the right places
 cp -r github.com/cosmos/ibc-go/v*/modules/* modules/
 rm -rf github.com
+
+go mod tidy
+
+./scripts/protocgen-pulsar.sh

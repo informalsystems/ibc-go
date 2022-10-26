@@ -47,6 +47,7 @@ vagrant
 
 # Graphviz
 dependency-graph.png
+debug_container.svg
 
 # Latex
 *.aux
