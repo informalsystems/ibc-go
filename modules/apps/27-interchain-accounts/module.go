@@ -6,17 +6,21 @@ import (
 	"fmt"
 	"math/rand"
 
+	"github.com/cosmos/cosmos-sdk/runtime"
+	store "github.com/cosmos/cosmos-sdk/store/types"
+	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
+	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
+	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
+
 	"cosmossdk.io/core/appmodule"
+	"cosmossdk.io/depinject"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/spf13/cobra"
-	abci "github.com/tendermint/tendermint/abci/types"
-
+	modulev1 "github.com/cosmos/ibc-go/v5/api/ibc/applications/interchain_accounts/module/v1"
 	"github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/client/cli"
 	controllerkeeper "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/controller/keeper"
 	controllertypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/controller/types"
@@ -24,9 +28,11 @@ import (
 	hostkeeper "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/keeper"
 	hosttypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/types"
 	"github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/simulation"
-	"github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/types"
+	icatypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/types"
 	porttypes "github.com/cosmos/ibc-go/v5/modules/core/05-port/types"
 	ibchost "github.com/cosmos/ibc-go/v5/modules/core/24-host"
+	"github.com/spf13/cobra"
+	abci "github.com/tendermint/tendermint/abci/types"
 )
 
 var (
@@ -42,7 +48,7 @@ type AppModuleBasic struct{}
 
 // Name implements AppModuleBasic interface
 func (AppModuleBasic) Name() string {
-	return types.ModuleName
+	return icatypes.ModuleName
 }
 
 // RegisterLegacyAminoCodec implements AppModuleBasic.
@@ -50,27 +56,27 @@ func (AppModuleBasic) RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {}
 
 // RegisterInterfaces registers module concrete types into protobuf Any
 func (AppModuleBasic) RegisterInterfaces(registry codectypes.InterfaceRegistry) {
-	types.RegisterInterfaces(registry)
+	icatypes.RegisterInterfaces(registry)
 }
 
 // DefaultGenesis returns default genesis state as raw bytes for the IBC
 // interchain accounts module
 func (AppModuleBasic) DefaultGenesis(cdc codec.JSONCodec) json.RawMessage {
-	return cdc.MustMarshalJSON(types.DefaultGenesis())
+	return cdc.MustMarshalJSON(icatypes.DefaultGenesis())
 }
 
 // ValidateGenesis performs genesis state validation for the IBC interchain acounts module
 func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncodingConfig, bz json.RawMessage) error {
-	var gs types.GenesisState
+	var gs icatypes.GenesisState
 	if err := cdc.UnmarshalJSON(bz, &gs); err != nil {
-		return fmt.Errorf("failed to unmarshal %s genesis state: %w", types.ModuleName, err)
+		return fmt.Errorf("failed to unmarshal %s genesis state: %w", icatypes.ModuleName, err)
 	}
 
 	return gs.Validate()
 }
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the interchain accounts module.
-func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtime.ServeMux) {
+func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *gwruntime.ServeMux) {
 	err := controllertypes.RegisterQueryHandlerClient(context.Background(), mux, controllertypes.NewQueryClient(clientCtx))
 	if err != nil {
 		panic(err)
@@ -117,8 +123,8 @@ func (am AppModule) InitModule(ctx sdk.Context, controllerParams controllertypes
 	if am.hostKeeper != nil {
 		am.hostKeeper.SetParams(ctx, hostParams)
 
-		cap := am.hostKeeper.BindPort(ctx, types.PortID)
-		if err := am.hostKeeper.ClaimCapability(ctx, cap, ibchost.PortPath(types.PortID)); err != nil {
+		cap := am.hostKeeper.BindPort(ctx, icatypes.PortID)
+		if err := am.hostKeeper.ClaimCapability(ctx, cap, ibchost.PortPath(icatypes.PortID)); err != nil {
 			panic(fmt.Sprintf("could not claim port capability: %v", err))
 		}
 	}
@@ -147,7 +153,7 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 // InitGenesis performs genesis initialization for the interchain accounts module.
 // It returns no validator updates.
 func (am AppModule) InitGenesis(ctx sdk.Context, cdc codec.JSONCodec, data json.RawMessage) []abci.ValidatorUpdate {
-	var genesisState types.GenesisState
+	var genesisState icatypes.GenesisState
 	cdc.MustUnmarshalJSON(data, &genesisState)
 
 	if am.controllerKeeper != nil {
@@ -164,8 +170,8 @@ func (am AppModule) InitGenesis(ctx sdk.Context, cdc codec.JSONCodec, data json.
 // ExportGenesis returns the exported genesis state as raw bytes for the interchain accounts module
 func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.RawMessage {
 	var (
-		controllerGenesisState = types.DefaultControllerGenesis()
-		hostGenesisState       = types.DefaultHostGenesis()
+		controllerGenesisState = icatypes.DefaultControllerGenesis()
+		hostGenesisState       = icatypes.DefaultHostGenesis()
 	)
 
 	if am.controllerKeeper != nil {
@@ -176,7 +182,7 @@ func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.Raw
 		hostGenesisState = hostkeeper.ExportGenesis(ctx, *am.hostKeeper)
 	}
 
-	gs := types.NewGenesisState(controllerGenesisState, hostGenesisState)
+	gs := icatypes.NewGenesisState(controllerGenesisState, hostGenesisState)
 
 	return cdc.MustMarshalJSON(gs)
 }
@@ -217,12 +223,12 @@ func (am AppModule) RandomizedParams(r *rand.Rand) []simtypes.ParamChange {
 
 // RegisterStoreDecoder registers a decoder for interchain accounts module's types
 func (am AppModule) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
-	sdr[types.StoreKey] = simulation.NewDecodeStore()
+	sdr[icatypes.StoreKey] = simulation.NewDecodeStore()
 }
 
-// ============================================================================
-// New App Wiring Setup
-// ============================================================================
+// // ============================================================================
+// // New App Wiring Setup
+// // ============================================================================
 
 func init() {
 	appmodule.Register(
@@ -238,43 +244,62 @@ func provideModuleBasic() runtime.AppModuleBasicWrapper {
 	return runtime.WrapAppModuleBasic(AppModuleBasic{})
 }
 
-// type icaInputs struct {
-// 	depinject.In
+type icaInputs struct {
+	depinject.In
 
-// 	ModuleKey   depinject.OwnModuleKey
-// 	Key         *store.KVStoreKey
-// 	Cdc         codec.Codec
-// 	LegacyAmino *codec.LegacyAmino
-// 	Authority   map[string]sdk.AccAddress `optional:"true"`
+	ModuleKey   depinject.OwnModuleKey
+	Key         *store.KVStoreKey
+	Cdc         codec.Codec
+	LegacyAmino *codec.LegacyAmino
+	Authority   map[string]sdk.AccAddress `optional:"true"`
 
-// 	AccountKeeper types.AccountKeeper
-// 	BankKeeper    types.BankKeeper
-// 	StakingKeeper types.StakingKeeper
+	ics4Wrapper   icatypes.ICS4Wrapper
+	channelKeeper icatypes.ChannelKeeper
+	portKeeper    icatypes.PortKeeper
+	ScopedKeeper  capabilitykeeper.ScopedKeeper
+	msgRouter     icatypes.MessageRouter
 
-// 	// LegacySubspace is used solely for migration of x/params managed parameters
-// 	LegacySubspace exported.Subspace
-// }
+	accountKeeper icatypes.AccountKeeper
+	paramSpace    paramtypes.Subspace
+}
 
-// type icaOutputs struct {
-// 	depinject.Out
+type icaOutputs struct {
+	depinject.Out
 
-// 	Keeper keeper.Keeper
-// 	Module runtime.AppModuleWrapper
-// 	Hooks  staking.StakingHooksWrapper
-// }
+	ControllerKeeper controllerkeeper.Keeper
+	HostKeeper       hostkeeper.Keeper
+	Module           runtime.AppModuleWrapper
+}
 
-// func provideModule(in icaInputs) icaOutputs {
-// 	authority, ok := in.Authority[depinject.ModuleKey(in.ModuleKey).Name()]
-// 	if !ok {
-// 		// default to governance authority if not provided
-// 		authority = authtypes.NewModuleAddress(govtypes.ModuleName)
-// 	}
+func provideModule(in icaInputs) icaOutputs {
 
-// 	k := keeper.NewKeeper(in.Cdc, in.LegacyAmino, in.Key, in.StakingKeeper, authority.String())
-// 	m := NewAppModule(in.Cdc, k, in.AccountKeeper, in.BankKeeper, in.StakingKeeper, in.LegacySubspace)
-// 	return icaOutputs{
-// 		Keeper: k,
-// 		Module: runtime.WrapAppModule(m),
-// 		Hooks:  staking.StakingHooksWrapper{StakingHooks: k.Hooks()},
-// 	}
-// }
+	ck := controllerkeeper.NewKeeper(
+		in.Cdc,
+		in.Key,
+		in.paramSpace,
+		in.ics4Wrapper,
+		in.channelKeeper,
+		in.portKeeper,
+		in.ScopedKeeper,
+		in.msgRouter,
+	)
+
+	hk := hostkeeper.NewKeeper(
+		in.Cdc,
+		in.Key,
+		in.paramSpace,
+		in.ics4Wrapper,
+		in.channelKeeper,
+		in.portKeeper,
+		in.accountKeeper,
+		in.ScopedKeeper,
+		in.msgRouter,
+	)
+
+	m := NewAppModule(&ck, &hk)
+	return icaOutputs{
+		ControllerKeeper: ck,
+		HostKeeper:       hk,
+		Module:           runtime.WrapAppModule(m),
+	}
+}

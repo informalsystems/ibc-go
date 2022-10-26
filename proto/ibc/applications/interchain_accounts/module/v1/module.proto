@@ -2,13 +2,11 @@ syntax = "proto3";
 
 package ibc.applications.interchain_accounts.module.v1;
 
-option go_package = "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/host/types";
-
-import "cosmos/app/v1alpha1/module.proto";
+import "ibc/applications/v1alpha1/module.proto";
 
 // Module is the config object of the interchain-accounts module.
 message Module {
-  option (cosmos.app.v1alpha1.module) = {
+  option (ibc.applications.v1alpha1.module) = {
     go_import: "github.com/ibc-go/v5/modules/apps/27-interchain-accounts"
   };
 }

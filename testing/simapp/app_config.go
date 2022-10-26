@@ -49,9 +49,6 @@ import (
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	ibcfeetypes "github.com/cosmos/ibc-go/v5/modules/apps/29-fee/types"
-	ibctransfertypes "github.com/cosmos/ibc-go/v5/modules/apps/transfer/types"
-	ibcmock "github.com/cosmos/ibc-go/v5/testing/mock"
 )
 
 var (
@@ -64,10 +61,10 @@ var (
 		{Account: stakingtypes.NotBondedPoolName, Permissions: []string{authtypes.Burner, stakingtypes.ModuleName}},
 		{Account: govtypes.ModuleName, Permissions: []string{authtypes.Burner}},
 		{Account: nft.ModuleName},
-		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
-		{Account: ibcfeetypes.ModuleName, Permissions: nil},
-		{Account: icatypes.ModuleName, Permissions: nil},
-		{Account: ibcmock.ModuleName, Permissions: nil},
+		// {Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
+		// {Account: ibcfeetypes.ModuleName},
+		{Account: icatypes.ModuleName},
+		// {Account: ibcmock.ModuleName},
 	}
 
 	// blocked account addresses
@@ -103,7 +100,7 @@ var (
 						evidencetypes.ModuleName,
 						stakingtypes.ModuleName,
 						ibchost.ModuleName,
-						ibctransfertypes.ModuleName,
+						// ibctransfertypes.ModuleName,
 						authtypes.ModuleName,
 						banktypes.ModuleName,
 						govtypes.ModuleName,
@@ -116,8 +113,8 @@ var (
 						vestingtypes.ModuleName,
 						consensustypes.ModuleName,
 						icatypes.ModuleName,
-						ibcfeetypes.ModuleName,
-						ibcmock.ModuleName,
+						// ibcfeetypes.ModuleName,
+						// ibcmock.ModuleName,
 						group.ModuleName,
 					},
 					EndBlockers: []string{
@@ -125,7 +122,7 @@ var (
 						govtypes.ModuleName,
 						stakingtypes.ModuleName,
 						ibchost.ModuleName,
-						ibctransfertypes.ModuleName,
+						// ibctransfertypes.ModuleName,
 						capabilitytypes.ModuleName,
 						authtypes.ModuleName,
 						banktypes.ModuleName,
@@ -142,8 +139,8 @@ var (
 						upgradetypes.ModuleName,
 						vestingtypes.ModuleName,
 						icatypes.ModuleName,
-						ibcfeetypes.ModuleName,
-						ibcmock.ModuleName,
+						// ibcfeetypes.ModuleName,
+						// ibcmock.ModuleName,
 						group.ModuleName,
 					},
 					OverrideStoreKeys: []*runtimev1alpha1.StoreKeyConfig{
