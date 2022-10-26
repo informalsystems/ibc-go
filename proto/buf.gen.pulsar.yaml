@@ -4,11 +4,11 @@ managed:
   go_package_prefix:
     default: github.com/cosmos/ibc-go/v5/api
     except:
-      - buf.build/cosmos/cosmos-sdk
       - buf.build/googleapis/googleapis
       - buf.build/cosmos/gogo-proto
       - buf.build/cosmos/cosmos-proto
     override:
+      buf.build/cosmos/cosmos-sdk: cosmossdk.io/api
 plugins:
   - name: go-pulsar
     out: ../api
