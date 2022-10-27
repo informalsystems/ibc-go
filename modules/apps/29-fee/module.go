@@ -153,9 +153,9 @@ func (am AppModule) WeightedOperations(_ module.SimulationState) []simtypes.Weig
 	return nil
 }
 
-// // // ============================================================================
-// // // New App Wiring Setup
-// // // ============================================================================
+// // ============================================================================
+// // New App Wiring Setup
+// // ============================================================================
 
 // func init() {
 // 	appmodule.Register(
@@ -171,7 +171,7 @@ func (am AppModule) WeightedOperations(_ module.SimulationState) []simtypes.Weig
 // 	return runtime.WrapAppModuleBasic(AppModuleBasic{})
 // }
 
-// type icaInputs struct {
+// type FeeInputs struct {
 // 	depinject.In
 
 // 	ModuleKey depinject.OwnModuleKey
@@ -185,14 +185,14 @@ func (am AppModule) WeightedOperations(_ module.SimulationState) []simtypes.Weig
 // 	Router           *porttypes.Router
 // }
 
-// type icaOutputs struct {
+// type FeeOutputs struct {
 // 	depinject.Out
 
 // 	IBCKeeper keeper.Keeper
 // 	Module    runtime.AppModuleWrapper
 // }
 
-// func provideModule(in icaInputs) icaOutputs {
+// func provideModule(in FeeInputs) FeeOutputs {
 
 // 	k := keeper.NewKeeper(
 // 		in.Cdc codec.BinaryCodec, key storetypes.StoreKey, paramSpace paramtypes.Subspace,
@@ -200,7 +200,8 @@ func (am AppModule) WeightedOperations(_ module.SimulationState) []simtypes.Weig
 // 		scopedKeeper capabilitykeeper.ScopedKeeper,
 // 	)
 // 	m := NewAppModule(&ck, &hk)
-// 	return icaOutputs{
+
+// 	return FeeOutputs{
 // 		ControllerKeeper: ck,
 // 		HostKeeper:       hk,
 // 		Module:           runtime.WrapAppModule(m),

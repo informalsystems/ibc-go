@@ -227,17 +227,17 @@ func (am AppModule) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
 // 	appmodule.Register(
 // 		&modulev1.Module{},
 // 		appmodule.Provide(
-// 			provideModuleBasic,
-// 			provideModule,
+// 			ProvideModuleBasic,
+// 			ProvideModule,
 // 		),
 // 	)
 // }
 
-// func provideModuleBasic() runtime.AppModuleBasicWrapper {
+// func ProvideModuleBasic() runtime.AppModuleBasicWrapper {
 // 	return runtime.WrapAppModuleBasic(AppModuleBasic{})
 // }
 
-// type icaInputs struct {
+// type IcaInputs struct {
 // 	depinject.In
 
 // 	ModuleKey depinject.OwnModuleKey
@@ -254,7 +254,7 @@ func (am AppModule) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
 // 	ParamSpace    paramtypes.Subspace
 // }
 
-// type icaOutputs struct {
+// type IcaOutputs struct {
 // 	depinject.Out
 
 // 	ControllerKeeper controllerkeeper.Keeper
@@ -262,7 +262,7 @@ func (am AppModule) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
 // 	Module           runtime.AppModuleWrapper
 // }
 
-// func provideModule(in icaInputs) icaOutputs {
+// func ProvideModule(in IcaInputs) icaOutputs {
 
 // 	ck := controllerkeeper.NewKeeper(
 // 		in.Cdc,
@@ -288,7 +288,7 @@ func (am AppModule) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
 // 	)
 
 // 	m := NewAppModule(&ck, &hk)
-// 	return icaOutputs{
+// 	return IcaOutputs{
 // 		ControllerKeeper: ck,
 // 		HostKeeper:       hk,
 // 		Module:           runtime.WrapAppModule(m),

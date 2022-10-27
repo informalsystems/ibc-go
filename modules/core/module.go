@@ -6,22 +6,21 @@ import (
 	"fmt"
 	"math/rand"
 
-	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
-
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/depinject"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	"github.com/cosmos/cosmos-sdk/runtime"
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	modulev1 "github.com/cosmos/ibc-go/v5/api/ibc/core/module/v1"
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 
-	"github.com/cosmos/cosmos-sdk/runtime"
 	ibcclient "github.com/cosmos/ibc-go/v5/modules/core/02-client"
 	clientkeeper "github.com/cosmos/ibc-go/v5/modules/core/02-client/keeper"
 	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
@@ -204,25 +203,22 @@ func (am AppModule) WeightedOperations(_ module.SimulationState) []simtypes.Weig
 	return nil
 }
 
-// // ============================================================================
-// // New App Wiring Setup
-// // ============================================================================
+// ============================================================================
+// New App Wiring Setup
+// ============================================================================
 
 func init() {
 	appmodule.Register(
 		&modulev1.Module{},
-		appmodule.Provide(
-			provideModuleBasic,
-			provideModule,
-		),
+		appmodule.Provide(ProvideModuleBasic, ProvideModule),
 	)
 }
 
-func provideModuleBasic() runtime.AppModuleBasicWrapper {
+func ProvideModuleBasic() runtime.AppModuleBasicWrapper {
 	return runtime.WrapAppModuleBasic(AppModuleBasic{})
 }
 
-type icaInputs struct {
+type IBCCoreInputs struct {
 	depinject.In
 
 	Key        *store.KVStoreKey
@@ -234,26 +230,22 @@ type icaInputs struct {
 	CapabilityKeeper clienttypes.CapabilityKeeper
 }
 
-type ibcOutputs struct {
+type IBCCoreOutputs struct {
 	depinject.Out
 
-	IBCKeeper       keeper.Keeper
+	IBCKeeper       *keeper.Keeper
 	ScopedIBCKeeper capabilitykeeper.ScopedKeeper
 	Module          runtime.AppModuleWrapper
 }
 
-func provideModule(in icaInputs) ibcOutputs {
-
+func ProvideModule(in IBCCoreInputs) IBCCoreOutputs {
 	scopedIBCKeeper := in.CapabilityKeeper.ScopeToModule(host.ModuleName)
 
-	k := keeper.NewKeeper(
-		in.Cdc, in.Key, in.ParamSpace,
-		in.StakingKeeper, in.UpgradeKeeper,
-		scopedIBCKeeper,
-	)
+	k := keeper.NewKeeper(in.Cdc, in.Key, in.ParamSpace, in.StakingKeeper, in.UpgradeKeeper, scopedIBCKeeper)
 	m := NewAppModule(in.Cdc, k)
-	return ibcOutputs{
-		IBCKeeper:       *k,
+
+	return IBCCoreOutputs{
+		IBCKeeper:       k,
 		ScopedIBCKeeper: scopedIBCKeeper,
 		Module:          runtime.WrapAppModule(m),
 	}
