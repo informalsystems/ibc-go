@@ -166,13 +166,8 @@ type SimApp struct {
 
 	interfaceRegistry types.InterfaceRegistry
 
-	invCheckPeriod uint
-
 	// keys to access the substores
 	keys map[string]*storetypes.KVStoreKey
-
-	// memory keys for testing purpose
-	memKeys map[string]*storetypes.MemoryStoreKey
 
 	// keepers
 	AccountKeeper         authkeeper.AccountKeeper
@@ -242,21 +237,7 @@ func NewSimApp(
 		// merge the AppConfig and other configuration in one config
 		appConfig = depinject.Configs(
 			AppConfig,
-			depinject.Supply(
-				// supply the application options
-				appOpts,
-
-				// For providing a custom inflation function for x/mint add here your
-				// custom function that implements the minttypes.InflationCalculationFn
-				// interface.
-
-				// For providing a custom authority to a module simply add it below. By
-				// default the governance module is the default authority.
-				//
-				// map[string]sdk.AccAddress{
-				// 	minttypes.ModuleName: authtypes.NewModuleAddress(authtypes.ModuleName),
-				// },
-			),
+			depinject.Supply(appOpts),
 		)
 	)
 
@@ -277,7 +258,7 @@ func NewSimApp(
 		&app.CrisisKeeper,
 		&app.UpgradeKeeper,
 		&app.ParamsKeeper,
-		app.IBCKeeper,
+		&app.IBCKeeper,
 		&app.ScopedIBCKeeper,
 		// &app.ScopedIBCMockKeeper,
 		// &app.ICAControllerKeeper,
@@ -445,7 +426,7 @@ func (app *SimApp) GetScopedIBCKeeper() capabilitykeeper.ScopedKeeper {
 
 // GetTxConfig implements the TestingApp interface.
 func (app *SimApp) GetTxConfig() client.TxConfig {
-	return MakeTestEncodingConfig().TxConfig
+	return app.txConfig
 }
 
 // SimulationManager implements the SimulationApp interface
