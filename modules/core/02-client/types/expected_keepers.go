@@ -4,6 +4,7 @@ import (
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 )
@@ -23,4 +24,8 @@ type UpgradeKeeper interface {
 	GetUpgradedConsensusState(ctx sdk.Context, lastHeight int64) ([]byte, bool)
 	SetUpgradedConsensusState(ctx sdk.Context, planHeight int64, bz []byte) error
 	ScheduleUpgrade(ctx sdk.Context, plan upgradetypes.Plan) error
+}
+
+type CapabilityKeeper interface {
+	ScopeToModule(moduleName string) capabilitykeeper.ScopedKeeper
 }

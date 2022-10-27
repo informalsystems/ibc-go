@@ -6,16 +6,22 @@ import (
 	"fmt"
 	"math/rand"
 
+	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
+
+	"cosmossdk.io/core/appmodule"
+	"cosmossdk.io/depinject"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/spf13/cobra"
-	abci "github.com/tendermint/tendermint/abci/types"
+	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
+	modulev1 "github.com/cosmos/ibc-go/v5/api/ibc/core/module/v1"
+	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 
+	"github.com/cosmos/cosmos-sdk/runtime"
 	ibcclient "github.com/cosmos/ibc-go/v5/modules/core/02-client"
 	clientkeeper "github.com/cosmos/ibc-go/v5/modules/core/02-client/keeper"
 	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
@@ -26,6 +32,8 @@ import (
 	"github.com/cosmos/ibc-go/v5/modules/core/keeper"
 	"github.com/cosmos/ibc-go/v5/modules/core/simulation"
 	"github.com/cosmos/ibc-go/v5/modules/core/types"
+	"github.com/spf13/cobra"
+	abci "github.com/tendermint/tendermint/abci/types"
 )
 
 var (
@@ -35,7 +43,9 @@ var (
 )
 
 // AppModuleBasic defines the basic application module used by the ibc module.
-type AppModuleBasic struct{}
+type AppModuleBasic struct {
+	cdc codec.Codec
+}
 
 var _ module.AppModuleBasic = AppModuleBasic{}
 
@@ -64,7 +74,7 @@ func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncod
 }
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the ibc module.
-func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtime.ServeMux) {
+func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *gwruntime.ServeMux) {
 	err := clienttypes.RegisterQueryHandlerClient(context.Background(), mux, clienttypes.NewQueryClient(clientCtx))
 	if err != nil {
 		panic(err)
@@ -104,9 +114,10 @@ type AppModule struct {
 }
 
 // NewAppModule creates a new AppModule object
-func NewAppModule(k *keeper.Keeper) AppModule {
+func NewAppModule(cdc codec.Codec, k *keeper.Keeper) AppModule {
 	return AppModule{
-		keeper: k,
+		AppModuleBasic: AppModuleBasic{cdc: cdc},
+		keeper:         k,
 	}
 }
 
@@ -191,4 +202,59 @@ func (am AppModule) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
 // WeightedOperations returns the all the ibc module operations with their respective weights.
 func (am AppModule) WeightedOperations(_ module.SimulationState) []simtypes.WeightedOperation {
 	return nil
+}
+
+// // ============================================================================
+// // New App Wiring Setup
+// // ============================================================================
+
+func init() {
+	appmodule.Register(
+		&modulev1.Module{},
+		appmodule.Provide(
+			provideModuleBasic,
+			provideModule,
+		),
+	)
+}
+
+func provideModuleBasic() runtime.AppModuleBasicWrapper {
+	return runtime.WrapAppModuleBasic(AppModuleBasic{})
+}
+
+type icaInputs struct {
+	depinject.In
+
+	Key        *store.KVStoreKey
+	Cdc        codec.Codec
+	ParamSpace paramtypes.Subspace
+
+	StakingKeeper    clienttypes.StakingKeeper
+	UpgradeKeeper    clienttypes.UpgradeKeeper
+	CapabilityKeeper clienttypes.CapabilityKeeper
+}
+
+type ibcOutputs struct {
+	depinject.Out
+
+	IBCKeeper       keeper.Keeper
+	ScopedIBCKeeper capabilitykeeper.ScopedKeeper
+	Module          runtime.AppModuleWrapper
+}
+
+func provideModule(in icaInputs) ibcOutputs {
+
+	scopedIBCKeeper := in.CapabilityKeeper.ScopeToModule(host.ModuleName)
+
+	k := keeper.NewKeeper(
+		in.Cdc, in.Key, in.ParamSpace,
+		in.StakingKeeper, in.UpgradeKeeper,
+		scopedIBCKeeper,
+	)
+	m := NewAppModule(in.Cdc, k)
+	return ibcOutputs{
+		IBCKeeper:       *k,
+		ScopedIBCKeeper: scopedIBCKeeper,
+		Module:          runtime.WrapAppModule(m),
+	}
 }

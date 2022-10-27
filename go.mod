@@ -2,6 +2,7 @@ go 1.18
 
 module github.com/cosmos/ibc-go/v5
 
+// cosmossdk.io/depinject => /Users/simon/Dev/go-workspace/src/github.com/sainoe/cosmossdk.io/depinject
 replace github.com/gogo/gateway => github.com/notional-labs/gateway v1.1.1-0.20220417180718-8e60e17a098d
 
 require (

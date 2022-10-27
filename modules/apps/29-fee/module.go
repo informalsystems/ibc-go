@@ -12,7 +12,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
+
 	"github.com/spf13/cobra"
 	abci "github.com/tendermint/tendermint/abci/types"
 
@@ -59,7 +60,7 @@ func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncod
 }
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for ics29 fee module.
-func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtime.ServeMux) {
+func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *gwruntime.ServeMux) {
 	err := types.RegisterQueryHandlerClient(context.Background(), mux, types.NewQueryClient(clientCtx))
 	if err != nil {
 		panic(err)
@@ -151,3 +152,57 @@ func (am AppModule) RegisterStoreDecoder(_ sdk.StoreDecoderRegistry) {
 func (am AppModule) WeightedOperations(_ module.SimulationState) []simtypes.WeightedOperation {
 	return nil
 }
+
+// // // ============================================================================
+// // // New App Wiring Setup
+// // // ============================================================================
+
+// func init() {
+// 	appmodule.Register(
+// 		&modulev1.Module{},
+// 		appmodule.Provide(
+// 			provideModuleBasic,
+// 			provideModule,
+// 		),
+// 	)
+// }
+
+// func provideModuleBasic() runtime.AppModuleBasicWrapper {
+// 	return runtime.WrapAppModuleBasic(AppModuleBasic{})
+// }
+
+// type icaInputs struct {
+// 	depinject.In
+
+// 	ModuleKey depinject.OwnModuleKey
+// 	Key       *store.KVStoreKey
+// 	Cdc       codec.Codec
+
+// 	ClientKeeper     clientkeeper.Keeper
+// 	ConnectionKeeper connectionkeeper.Keeper
+// 	ChannelKeeper    channelkeeper.Keeper
+// 	ScopedKeeper     capabilitykeeper.ScopedKeeper
+// 	Router           *porttypes.Router
+// }
+
+// type icaOutputs struct {
+// 	depinject.Out
+
+// 	IBCKeeper keeper.Keeper
+// 	Module    runtime.AppModuleWrapper
+// }
+
+// func provideModule(in icaInputs) icaOutputs {
+
+// 	k := keeper.NewKeeper(
+// 		in.Cdc codec.BinaryCodec, key storetypes.StoreKey, paramSpace paramtypes.Subspace,
+// 		stakingKeeper clienttypes.StakingKeeper, upgradeKeeper clienttypes.UpgradeKeeper,
+// 		scopedKeeper capabilitykeeper.ScopedKeeper,
+// 	)
+// 	m := NewAppModule(&ck, &hk)
+// 	return icaOutputs{
+// 		ControllerKeeper: ck,
+// 		HostKeeper:       hk,
+// 		Module:           runtime.WrapAppModule(m),
+// 	}
+// }

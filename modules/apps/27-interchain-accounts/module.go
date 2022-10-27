@@ -6,21 +6,14 @@ import (
 	"fmt"
 	"math/rand"
 
-	"github.com/cosmos/cosmos-sdk/runtime"
-	store "github.com/cosmos/cosmos-sdk/store/types"
-	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
-	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 
-	"cosmossdk.io/core/appmodule"
-	"cosmossdk.io/depinject"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	modulev1 "github.com/cosmos/ibc-go/v5/api/ibc/applications/interchain_accounts/module/v1"
 	"github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/client/cli"
 	controllerkeeper "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/controller/keeper"
 	controllertypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/controller/types"
@@ -230,76 +223,74 @@ func (am AppModule) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
 // // New App Wiring Setup
 // // ============================================================================
 
-func init() {
-	appmodule.Register(
-		&modulev1.Module{},
-		appmodule.Provide(
-			provideModuleBasic,
-			provideModule,
-		),
-	)
-}
+// func init() {
+// 	appmodule.Register(
+// 		&modulev1.Module{},
+// 		appmodule.Provide(
+// 			provideModuleBasic,
+// 			provideModule,
+// 		),
+// 	)
+// }
 
-func provideModuleBasic() runtime.AppModuleBasicWrapper {
-	return runtime.WrapAppModuleBasic(AppModuleBasic{})
-}
+// func provideModuleBasic() runtime.AppModuleBasicWrapper {
+// 	return runtime.WrapAppModuleBasic(AppModuleBasic{})
+// }
 
-type icaInputs struct {
-	depinject.In
+// type icaInputs struct {
+// 	depinject.In
 
-	ModuleKey   depinject.OwnModuleKey
-	Key         *store.KVStoreKey
-	Cdc         codec.Codec
-	LegacyAmino *codec.LegacyAmino
-	Authority   map[string]sdk.AccAddress `optional:"true"`
+// 	ModuleKey depinject.OwnModuleKey
+// 	Key       *store.KVStoreKey
+// 	Cdc       codec.Codec
 
-	ics4Wrapper   icatypes.ICS4Wrapper
-	channelKeeper icatypes.ChannelKeeper
-	portKeeper    icatypes.PortKeeper
-	ScopedKeeper  capabilitykeeper.ScopedKeeper
-	msgRouter     icatypes.MessageRouter
+// 	Ics4Wrapper   icatypes.ICS4Wrapper
+// 	ChannelKeeper icatypes.ChannelKeeper
+// 	PortKeeper    icatypes.PortKeeper
+// 	ScopedKeeper  capabilitykeeper.ScopedKeeper
+// 	MsgRouter     icatypes.MessageRouter
 
-	accountKeeper icatypes.AccountKeeper
-	paramSpace    paramtypes.Subspace
-}
+// 	AccountKeeper icatypes.AccountKeeper
+// 	ParamSpace    paramtypes.Subspace
+// }
 
-type icaOutputs struct {
-	depinject.Out
+// type icaOutputs struct {
+// 	depinject.Out
 
-	ControllerKeeper controllerkeeper.Keeper
-	HostKeeper       hostkeeper.Keeper
-	Module           runtime.AppModuleWrapper
-}
+// 	ControllerKeeper controllerkeeper.Keeper
+// 	HostKeeper       hostkeeper.Keeper
+// 	Module           runtime.AppModuleWrapper
+// }
 
-func provideModule(in icaInputs) icaOutputs {
+// func provideModule(in icaInputs) icaOutputs {
 
-	ck := controllerkeeper.NewKeeper(
-		in.Cdc,
-		in.Key,
-		in.paramSpace,
-		in.ics4Wrapper,
-		in.channelKeeper,
-		in.portKeeper,
-		in.ScopedKeeper,
-		in.msgRouter,
-	)
+// 	ck := controllerkeeper.NewKeeper(
+// 		in.Cdc,
+// 		in.Key,
+// 		in.ParamSpace,
+// 		in.Ics4Wrapper,
+// 		in.ChannelKeeper,
+// 		in.PortKeeper,
+// 		in.ScopedKeeper,
+// 		in.MsgRouter,
+// 	)
 
-	hk := hostkeeper.NewKeeper(
-		in.Cdc,
-		in.Key,
-		in.paramSpace,
-		in.ics4Wrapper,
-		in.channelKeeper,
-		in.portKeeper,
-		in.accountKeeper,
-		in.ScopedKeeper,
-		in.msgRouter,
-	)
+// 	hk := hostkeeper.NewKeeper(
+// 		in.Cdc,
+// 		in.Key,
+// 		in.ParamSpace,
+// 		in.Ics4Wrapper,
+// 		in.ChannelKeeper,
+// 		in.PortKeeper,
+// 		in.AccountKeeper,
+// 		in.ScopedKeeper,
+// 		in.MsgRouter,
+// 	)
 
-	m := NewAppModule(&ck, &hk)
-	return icaOutputs{
-		ControllerKeeper: ck,
-		HostKeeper:       hk,
-		Module:           runtime.WrapAppModule(m),
-	}
-}
+// 	m := NewAppModule(&ck, &hk)
+// 	return icaOutputs{
+// 		ControllerKeeper: ck,
+// 		HostKeeper:       hk,
+// 		Module:           runtime.WrapAppModule(m),
+// 	}
+// }

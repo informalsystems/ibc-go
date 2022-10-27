@@ -26,10 +26,6 @@ import (
 	upgrademodulev1 "cosmossdk.io/api/cosmos/upgrade/module/v1"
 	vestingmodulev1 "cosmossdk.io/api/cosmos/vesting/module/v1"
 	"cosmossdk.io/core/appconfig"
-	icatypes "github.com/cosmos/ibc-go/v5/modules/apps/27-interchain-accounts/types"
-	ibchost "github.com/cosmos/ibc-go/v5/modules/core/24-host"
-	"google.golang.org/protobuf/types/known/durationpb"
-
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 	"github.com/cosmos/cosmos-sdk/x/authz"
@@ -49,6 +45,10 @@ import (
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+	ibcmodulev1 "github.com/cosmos/ibc-go/v5/api/ibc/core/module/v1"
+	ibchost "github.com/cosmos/ibc-go/v5/modules/core/24-host"
+	ibcmock "github.com/cosmos/ibc-go/v5/testing/mock"
+	"google.golang.org/protobuf/types/known/durationpb"
 )
 
 var (
@@ -63,8 +63,8 @@ var (
 		{Account: nft.ModuleName},
 		// {Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		// {Account: ibcfeetypes.ModuleName},
-		{Account: icatypes.ModuleName},
-		// {Account: ibcmock.ModuleName},
+		// {Account: icatypes.ModuleName},
+		{Account: ibcmock.ModuleName},
 	}
 
 	// blocked account addresses
@@ -112,7 +112,7 @@ var (
 						paramstypes.ModuleName,
 						vestingtypes.ModuleName,
 						consensustypes.ModuleName,
-						icatypes.ModuleName,
+						// icatypes.ModuleName,
 						// ibcfeetypes.ModuleName,
 						// ibcmock.ModuleName,
 						group.ModuleName,
@@ -138,9 +138,9 @@ var (
 						consensustypes.ModuleName,
 						upgradetypes.ModuleName,
 						vestingtypes.ModuleName,
-						icatypes.ModuleName,
+						// icatypes.ModuleName,
 						// ibcfeetypes.ModuleName,
-						// ibcmock.ModuleName,
+						ibcmock.ModuleName,
 						group.ModuleName,
 					},
 					OverrideStoreKeys: []*runtimev1alpha1.StoreKeyConfig{
@@ -206,6 +206,22 @@ var (
 					SealKeeper: true,
 				}),
 			},
+			{
+				Name:   ibchost.ModuleName,
+				Config: appconfig.WrapAny(&ibcmodulev1.Module{}),
+			},
+			// {
+			// 	Name: ibcmock.ModuleName,
+			// 	Config: appconfig.WrapAny(&capabilitymodulev1.Module{
+			// 		SealKeeper: true,
+			// 	}),
+			// },
+			// {
+			// 	Name: "ibcscope",
+			// 	Config: appconfig.WrapAny(&capabilitymodulev1.Module{
+			// 		SealKeeper: true,
+			// 	}),
+			// },
 			{
 				Name:   evidencetypes.ModuleName,
 				Config: appconfig.WrapAny(&evidencemodulev1.Module{}),
