@@ -276,10 +276,10 @@ func GetSentPacketKey(sequence uint64, channelID string) string {
 
 // GetSentPacket returns the sent packet with `sequence` (if any),
 // reconstructed from emitted events of type SendPacketEvent
-func (chain *TestChain) GetSentPacket(sequence uint64, channelID string) (packet channeltypes.Packet, found bool) {
+func (chain *TestChain) GetSentPacket(sequence uint64, channelID string) (channeltypes.Packet, bool) {
 	sentPacketKey := GetSentPacketKey(sequence, channelID)
-	packet, found = chain.SentPackets[sentPacketKey]
-	return
+	packet, found := chain.SentPackets[sentPacketKey]
+	return packet, found
 }
 
 // setSentPacketsFromEvents stores the sent packet reconstructed
