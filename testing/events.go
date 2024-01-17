@@ -1,6 +1,7 @@
 package ibctesting
 
 import (
+	"encoding/hex"
 	"fmt"
 	"strconv"
 
@@ -63,13 +64,21 @@ func ParseChannelIDFromEvents(events sdk.Events) (string, error) {
 // ParsePacketFromEvents parses events emitted from a MsgRecvPacket and returns the
 // acknowledgement.
 func ParsePacketFromEvents(events sdk.Events) (channeltypes.Packet, error) {
+	fmt.Printf("events: %v\n", events)
 	for _, ev := range events {
 		if ev.Type == channeltypes.EventTypeSendPacket {
 			packet := channeltypes.Packet{}
 			for _, attr := range ev.Attributes {
 				switch attr.Key {
-				case channeltypes.AttributeKeyData: //nolint:staticcheck // DEPRECATED
-					packet.Data = []byte(attr.Value)
+				// case channeltypes.AttributeKeyData: //nolint:staticcheck // DEPRECATED
+				// 	packet.Data = []byte(attr.Value)
+
+				case channeltypes.AttributeKeyDataHex:
+					data, err := hex.DecodeString(attr.Value)
+					if err != nil {
+						return channeltypes.Packet{}, err
+					}
+					packet.Data = data
 
 				case channeltypes.AttributeKeySequence:
 					seq, err := strconv.ParseUint(attr.Value, 10, 64)
