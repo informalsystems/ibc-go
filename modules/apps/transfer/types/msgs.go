@@ -28,7 +28,7 @@ func NewMsgTransfer(
 	sourcePort, sourceChannel string,
 	token sdk.Coin, sender, receiver string,
 	timeoutHeight clienttypes.Height, timeoutTimestamp uint64,
-	memo string,
+	memo []byte,
 ) *MsgTransfer {
 	return &MsgTransfer{
 		SourcePort:       sourcePort,

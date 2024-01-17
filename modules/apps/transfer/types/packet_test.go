@@ -22,16 +22,16 @@ func TestFungibleTokenPacketDataValidateBasic(t *testing.T) {
 		packetData types.FungibleTokenPacketData
 		expPass    bool
 	}{
-		{"valid packet", types.NewFungibleTokenPacketData(denom, amount, addr1, addr2, ""), true},
-		{"valid packet with memo", types.NewFungibleTokenPacketData(denom, amount, addr1, addr2, "memo"), true},
-		{"valid packet with large amount", types.NewFungibleTokenPacketData(denom, largeAmount, addr1, addr2, ""), true},
-		{"invalid denom", types.NewFungibleTokenPacketData("", amount, addr1, addr2, ""), false},
-		{"invalid empty amount", types.NewFungibleTokenPacketData(denom, "", addr1, addr2, ""), false},
-		{"invalid zero amount", types.NewFungibleTokenPacketData(denom, "0", addr1, addr2, ""), false},
-		{"invalid negative amount", types.NewFungibleTokenPacketData(denom, "-1", addr1, addr2, ""), false},
-		{"invalid large amount", types.NewFungibleTokenPacketData(denom, invalidLargeAmount, addr1, addr2, ""), false},
-		{"missing sender address", types.NewFungibleTokenPacketData(denom, amount, emptyAddr, addr2, ""), false},
-		{"missing recipient address", types.NewFungibleTokenPacketData(denom, amount, addr1, emptyAddr, ""), false},
+		{"valid packet", types.NewFungibleTokenPacketData(denom, amount, addr1, addr2, []byte{}), true},
+		{"valid packet with memo", types.NewFungibleTokenPacketData(denom, amount, addr1, addr2, []byte("memo")), true},
+		{"valid packet with large amount", types.NewFungibleTokenPacketData(denom, largeAmount, addr1, addr2, []byte{}), true},
+		{"invalid denom", types.NewFungibleTokenPacketData("", amount, addr1, addr2, []byte{}), false},
+		{"invalid empty amount", types.NewFungibleTokenPacketData(denom, "", addr1, addr2, []byte{}), false},
+		{"invalid zero amount", types.NewFungibleTokenPacketData(denom, "0", addr1, addr2, []byte{}), false},
+		{"invalid negative amount", types.NewFungibleTokenPacketData(denom, "-1", addr1, addr2, []byte{}), false},
+		{"invalid large amount", types.NewFungibleTokenPacketData(denom, invalidLargeAmount, addr1, addr2, []byte{}), false},
+		{"missing sender address", types.NewFungibleTokenPacketData(denom, amount, emptyAddr, addr2, []byte{}), false},
+		{"missing recipient address", types.NewFungibleTokenPacketData(denom, amount, addr1, emptyAddr, []byte{}), false},
 	}
 
 	for i, tc := range testCases {
