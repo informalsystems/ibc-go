@@ -477,7 +477,7 @@ func (s *CallbacksTestSuite) TestOnTimeoutPacket() {
 			s.Require().NoError(err)
 			s.Require().NotNil(packet)
 
-			err = transfertypes.ModuleCdc.UnmarshalJSON(packet.Data, &packetData)
+			err = transfertypes.ModuleCdc.Unmarshal(packet.Data, &packetData)
 			s.Require().NoError(err)
 
 			ctx = s.chainA.GetContext()

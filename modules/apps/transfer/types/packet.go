@@ -8,8 +8,6 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdkmath "cosmossdk.io/math"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-
 	ibcerrors "github.com/cosmos/ibc-go/v8/modules/core/errors"
 	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
@@ -69,7 +67,8 @@ func (ftpd FungibleTokenPacketData) ValidateBasic() error {
 
 // GetBytes is a helper for serialising
 func (ftpd FungibleTokenPacketData) GetBytes() []byte {
-	return sdk.MustSortJSON(mustProtoMarshalJSON(&ftpd))
+	// return sdk.MustSortJSON(mustProtoMarshalJSON(&ftpd))
+	return mustProtoMarshal(&ftpd)
 }
 
 // GetPacketSender returns the sender address embedded in the packet data.
