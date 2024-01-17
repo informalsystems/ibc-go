@@ -25,7 +25,7 @@ var (
 func NewFungibleTokenPacketData(
 	denom string, amount string,
 	sender, receiver string,
-	memo string,
+	memo []byte,
 ) FungibleTokenPacketData {
 	return FungibleTokenPacketData{
 		Denom:    denom,
@@ -58,5 +58,6 @@ func (ftpd FungibleTokenPacketData) ValidateBasic() error {
 
 // GetBytes is a helper for serialising
 func (ftpd FungibleTokenPacketData) GetBytes() []byte {
-	return sdk.MustSortJSON(mustProtoMarshalJSON(&ftpd))
+	// return sdk.MustSortJSON(mustProtoMarshalJSON(&ftpd))
+	return mustProtoMarshal(&ftpd)
 }

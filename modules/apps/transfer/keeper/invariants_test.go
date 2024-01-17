@@ -48,7 +48,7 @@ func (suite *KeeperTestSuite) TestTotalEscrowPerDenomInvariant() {
 				coin,
 				suite.chainA.SenderAccount.GetAddress().String(),
 				suite.chainB.SenderAccount.GetAddress().String(),
-				suite.chainA.GetTimeoutHeight(), 0, "",
+				suite.chainA.GetTimeoutHeight(), 0, []byte(""),
 			)
 
 			res, err := suite.chainA.SendMsgs(msg)

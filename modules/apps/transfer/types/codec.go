@@ -79,3 +79,12 @@ func mustProtoMarshalJSON(msg proto.Message) []byte {
 
 	return buf.Bytes()
 }
+
+func mustProtoMarshal(msg proto.Message) []byte {
+	buf, err := proto.Marshal(msg)
+	if err != nil {
+		panic(err)
+	}
+
+	return buf
+}
